@@ -1,0 +1,6 @@
+anthropic>=0.40.0
+spacy>=3.7.0
+pytest>=8.0.0
+
+# After pip install, run once:
+#   python -m spacy download en_core_web_sm
