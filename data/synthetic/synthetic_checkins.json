@@ -1,0 +1,1332 @@
+[
+  {
+    "student_id": "S_004",
+    "student_name": "Rohan Mehta",
+    "age_group": "senior",
+    "date": "2026-06-22",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Feeling pretty good today. Had a fun time at football practice."
+    }
+  },
+  {
+    "student_id": "S_004",
+    "student_name": "Rohan Mehta",
+    "age_group": "senior",
+    "date": "2026-06-23",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Pretty okay. A bit tired from studying but nothing major."
+    }
+  },
+  {
+    "student_id": "S_004",
+    "student_name": "Rohan Mehta",
+    "age_group": "senior",
+    "date": "2026-06-24",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Good day overall. Lunch with friends was nice."
+    }
+  },
+  {
+    "student_id": "S_004",
+    "student_name": "Rohan Mehta",
+    "age_group": "senior",
+    "date": "2026-06-25",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Feeling alright. A bit distracted in class but fine."
+    }
+  },
+  {
+    "student_id": "S_004",
+    "student_name": "Rohan Mehta",
+    "age_group": "senior",
+    "date": "2026-06-26",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Okay I guess. Nothing exciting. Same as usual."
+    }
+  },
+  {
+    "student_id": "S_004",
+    "student_name": "Rohan Mehta",
+    "age_group": "senior",
+    "date": "2026-06-27",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Kind of tired. Not much to say today."
+    }
+  },
+  {
+    "student_id": "S_004",
+    "student_name": "Rohan Mehta",
+    "age_group": "senior",
+    "date": "2026-06-28",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "I don't really see the point of being here. I feel like nobody would notice if I just disappeared."
+    }
+  },
+  {
+    "student_id": "S_017",
+    "student_name": "Lily Chen",
+    "age_group": "junior",
+    "date": "2026-06-22",
+    "junior_input": {
+      "emoji_sequence": "🙂😌"
+    }
+  },
+  {
+    "student_id": "S_017",
+    "student_name": "Lily Chen",
+    "age_group": "junior",
+    "date": "2026-06-23",
+    "junior_input": {
+      "emoji_sequence": "🙂😌"
+    }
+  },
+  {
+    "student_id": "S_017",
+    "student_name": "Lily Chen",
+    "age_group": "junior",
+    "date": "2026-06-24",
+    "junior_input": {
+      "emoji_sequence": "😶😐"
+    }
+  },
+  {
+    "student_id": "S_017",
+    "student_name": "Lily Chen",
+    "age_group": "junior",
+    "date": "2026-06-25",
+    "junior_input": {
+      "emoji_sequence": "😭😔😶"
+    }
+  },
+  {
+    "student_id": "S_017",
+    "student_name": "Lily Chen",
+    "age_group": "junior",
+    "date": "2026-06-26",
+    "junior_input": {
+      "emoji_sequence": "😭😔😶"
+    }
+  },
+  {
+    "student_id": "S_017",
+    "student_name": "Lily Chen",
+    "age_group": "junior",
+    "date": "2026-06-27",
+    "junior_input": {
+      "emoji_sequence": "😭😔😶"
+    }
+  },
+  {
+    "student_id": "S_017",
+    "student_name": "Lily Chen",
+    "age_group": "junior",
+    "date": "2026-06-28",
+    "junior_input": {
+      "emoji_sequence": "😢😴😠"
+    }
+  },
+  {
+    "student_id": "S_003",
+    "student_name": "Aisha Johnson",
+    "age_group": "senior",
+    "date": "2026-06-22",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "I'm doing okay, just a little tired."
+    }
+  },
+  {
+    "student_id": "S_003",
+    "student_name": "Aisha Johnson",
+    "age_group": "senior",
+    "date": "2026-06-23",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Feeling a bit flat today. Not sure why."
+    }
+  },
+  {
+    "student_id": "S_003",
+    "student_name": "Aisha Johnson",
+    "age_group": "senior",
+    "date": "2026-06-24",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Kind of meh. Hard to focus in class."
+    }
+  },
+  {
+    "student_id": "S_003",
+    "student_name": "Aisha Johnson",
+    "age_group": "senior",
+    "date": "2026-06-25",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Not great. Things at home have been a bit tense."
+    }
+  },
+  {
+    "student_id": "S_003",
+    "student_name": "Aisha Johnson",
+    "age_group": "senior",
+    "date": "2026-06-26",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Pretty low today. Don't really want to talk to anyone."
+    }
+  },
+  {
+    "student_id": "S_003",
+    "student_name": "Aisha Johnson",
+    "age_group": "senior",
+    "date": "2026-06-27",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Feeling pretty down. Didn't really eat much at lunch."
+    }
+  },
+  {
+    "student_id": "S_003",
+    "student_name": "Aisha Johnson",
+    "age_group": "senior",
+    "date": "2026-06-28",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Really struggling today. I've been avoiding my friends. It feels easier that way."
+    }
+  },
+  {
+    "student_id": "S_009",
+    "student_name": "Marcus Rivera",
+    "age_group": "junior",
+    "date": "2026-06-22",
+    "junior_input": {
+      "emoji_sequence": "😊😌"
+    }
+  },
+  {
+    "student_id": "S_009",
+    "student_name": "Marcus Rivera",
+    "age_group": "junior",
+    "date": "2026-06-23",
+    "junior_input": {
+      "emoji_sequence": "🙂😌"
+    }
+  },
+  {
+    "student_id": "S_009",
+    "student_name": "Marcus Rivera",
+    "age_group": "junior",
+    "date": "2026-06-24",
+    "junior_input": {
+      "emoji_sequence": "😊😌"
+    }
+  },
+  {
+    "student_id": "S_009",
+    "student_name": "Marcus Rivera",
+    "age_group": "junior",
+    "date": "2026-06-25",
+    "junior_input": {
+      "emoji_sequence": "🙂🌤️"
+    }
+  },
+  {
+    "student_id": "S_009",
+    "student_name": "Marcus Rivera",
+    "age_group": "junior",
+    "date": "2026-06-26",
+    "junior_input": {
+      "emoji_sequence": "🙂😌"
+    }
+  },
+  {
+    "student_id": "S_009",
+    "student_name": "Marcus Rivera",
+    "age_group": "junior",
+    "date": "2026-06-27",
+    "junior_input": {
+      "emoji_sequence": "😢😴😠"
+    }
+  },
+  {
+    "student_id": "S_009",
+    "student_name": "Marcus Rivera",
+    "age_group": "junior",
+    "date": "2026-06-28",
+    "junior_input": {
+      "emoji_sequence": "😢😴😠"
+    }
+  },
+  {
+    "student_id": "S_012",
+    "student_name": "Priya Nair",
+    "age_group": "senior",
+    "date": "2026-06-22",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Tired. Just kind of going through the motions."
+    }
+  },
+  {
+    "student_id": "S_012",
+    "student_name": "Priya Nair",
+    "age_group": "senior",
+    "date": "2026-06-23",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Okay I guess. Hard to get motivated to do anything."
+    }
+  },
+  {
+    "student_id": "S_012",
+    "student_name": "Priya Nair",
+    "age_group": "senior",
+    "date": "2026-06-24",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "A bit better today but still pretty low on energy."
+    }
+  },
+  {
+    "student_id": "S_012",
+    "student_name": "Priya Nair",
+    "age_group": "senior",
+    "date": "2026-06-25",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Don't really feel like talking to people. Just keeping to myself."
+    }
+  },
+  {
+    "student_id": "S_012",
+    "student_name": "Priya Nair",
+    "age_group": "senior",
+    "date": "2026-06-26",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Still really tired. Didn't sleep well again."
+    }
+  },
+  {
+    "student_id": "S_012",
+    "student_name": "Priya Nair",
+    "age_group": "senior",
+    "date": "2026-06-27",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Feeling a bit better than yesterday but still not great."
+    }
+  },
+  {
+    "student_id": "S_012",
+    "student_name": "Priya Nair",
+    "age_group": "senior",
+    "date": "2026-06-28",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "I've been spending a lot of time alone. Just easier that way."
+    }
+  },
+  {
+    "student_id": "S_018",
+    "student_name": "Zara Okonkwo",
+    "age_group": "junior",
+    "date": "2026-06-22",
+    "junior_input": {
+      "emoji_sequence": "😊🙂"
+    }
+  },
+  {
+    "student_id": "S_018",
+    "student_name": "Zara Okonkwo",
+    "age_group": "junior",
+    "date": "2026-06-23",
+    "junior_input": {
+      "emoji_sequence": "😊🙂"
+    }
+  },
+  {
+    "student_id": "S_018",
+    "student_name": "Zara Okonkwo",
+    "age_group": "junior",
+    "date": "2026-06-24",
+    "junior_input": {
+      "emoji_sequence": "😊😌"
+    }
+  },
+  {
+    "student_id": "S_018",
+    "student_name": "Zara Okonkwo",
+    "age_group": "junior",
+    "date": "2026-06-25",
+    "junior_input": {
+      "emoji_sequence": "😊😌"
+    }
+  },
+  {
+    "student_id": "S_018",
+    "student_name": "Zara Okonkwo",
+    "age_group": "junior",
+    "date": "2026-06-26",
+    "junior_input": {
+      "emoji_sequence": "😢😴😠"
+    }
+  },
+  {
+    "student_id": "S_018",
+    "student_name": "Zara Okonkwo",
+    "age_group": "junior",
+    "date": "2026-06-27",
+    "junior_input": {
+      "emoji_sequence": "😊😌"
+    }
+  },
+  {
+    "student_id": "S_018",
+    "student_name": "Zara Okonkwo",
+    "age_group": "junior",
+    "date": "2026-06-28",
+    "junior_input": {
+      "emoji_sequence": "😭😔😶"
+    }
+  },
+  {
+    "student_id": "S_001",
+    "student_name": "Ethan Park",
+    "age_group": "junior",
+    "date": "2026-06-22",
+    "junior_input": {
+      "emoji_sequence": "😁🌟🎉"
+    }
+  },
+  {
+    "student_id": "S_001",
+    "student_name": "Ethan Park",
+    "age_group": "junior",
+    "date": "2026-06-23",
+    "junior_input": {
+      "emoji_sequence": "🥰😄✨"
+    }
+  },
+  {
+    "student_id": "S_001",
+    "student_name": "Ethan Park",
+    "age_group": "junior",
+    "date": "2026-06-24",
+    "junior_input": {
+      "emoji_sequence": "😄🌈😁"
+    }
+  },
+  {
+    "student_id": "S_001",
+    "student_name": "Ethan Park",
+    "age_group": "junior",
+    "date": "2026-06-25",
+    "junior_input": {
+      "emoji_sequence": "🥰😄✨"
+    }
+  },
+  {
+    "student_id": "S_001",
+    "student_name": "Ethan Park",
+    "age_group": "junior",
+    "date": "2026-06-26",
+    "junior_input": {
+      "emoji_sequence": "😁🌟🎉"
+    }
+  },
+  {
+    "student_id": "S_001",
+    "student_name": "Ethan Park",
+    "age_group": "junior",
+    "date": "2026-06-27",
+    "junior_input": {
+      "emoji_sequence": "😃🌟😊"
+    }
+  },
+  {
+    "student_id": "S_001",
+    "student_name": "Ethan Park",
+    "age_group": "junior",
+    "date": "2026-06-28",
+    "junior_input": {
+      "emoji_sequence": "😊😄🌟"
+    }
+  },
+  {
+    "student_id": "S_002",
+    "student_name": "Sofia Martins",
+    "age_group": "senior",
+    "date": "2026-06-22",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Feeling kind of anxious today, not sure about anything."
+    }
+  },
+  {
+    "student_id": "S_002",
+    "student_name": "Sofia Martins",
+    "age_group": "senior",
+    "date": "2026-06-23",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "A bit better. Had a good chat with my friend."
+    }
+  },
+  {
+    "student_id": "S_002",
+    "student_name": "Sofia Martins",
+    "age_group": "senior",
+    "date": "2026-06-24",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Things are slowly getting better I think."
+    }
+  },
+  {
+    "student_id": "S_002",
+    "student_name": "Sofia Martins",
+    "age_group": "senior",
+    "date": "2026-06-25",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Feeling more like myself today."
+    }
+  },
+  {
+    "student_id": "S_002",
+    "student_name": "Sofia Martins",
+    "age_group": "senior",
+    "date": "2026-06-26",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Had a really good day! Finished my project early."
+    }
+  },
+  {
+    "student_id": "S_002",
+    "student_name": "Sofia Martins",
+    "age_group": "senior",
+    "date": "2026-06-27",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Feeling pretty happy. Things are going well."
+    }
+  },
+  {
+    "student_id": "S_002",
+    "student_name": "Sofia Martins",
+    "age_group": "senior",
+    "date": "2026-06-28",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Best week in a while honestly. Feeling positive."
+    }
+  },
+  {
+    "student_id": "S_005",
+    "student_name": "James Oduya",
+    "age_group": "junior",
+    "date": "2026-06-22",
+    "junior_input": {
+      "emoji_sequence": "😄🌈😁"
+    }
+  },
+  {
+    "student_id": "S_005",
+    "student_name": "James Oduya",
+    "age_group": "junior",
+    "date": "2026-06-23",
+    "junior_input": {
+      "emoji_sequence": "🥰😄✨"
+    }
+  },
+  {
+    "student_id": "S_005",
+    "student_name": "James Oduya",
+    "age_group": "junior",
+    "date": "2026-06-24",
+    "junior_input": {
+      "emoji_sequence": "😃🌟😊"
+    }
+  },
+  {
+    "student_id": "S_005",
+    "student_name": "James Oduya",
+    "age_group": "junior",
+    "date": "2026-06-25",
+    "junior_input": {
+      "emoji_sequence": "😃🌟😊"
+    }
+  },
+  {
+    "student_id": "S_005",
+    "student_name": "James Oduya",
+    "age_group": "junior",
+    "date": "2026-06-26",
+    "junior_input": {
+      "emoji_sequence": "😄🌈😁"
+    }
+  },
+  {
+    "student_id": "S_005",
+    "student_name": "James Oduya",
+    "age_group": "junior",
+    "date": "2026-06-27",
+    "junior_input": {
+      "emoji_sequence": "😄🌈😁"
+    }
+  },
+  {
+    "student_id": "S_005",
+    "student_name": "James Oduya",
+    "age_group": "junior",
+    "date": "2026-06-28",
+    "junior_input": {
+      "emoji_sequence": "😃🌟😊"
+    }
+  },
+  {
+    "student_id": "S_006",
+    "student_name": "Mei Lin",
+    "age_group": "senior",
+    "date": "2026-06-22",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Great day! Got my essay back with a good grade."
+    }
+  },
+  {
+    "student_id": "S_006",
+    "student_name": "Mei Lin",
+    "age_group": "senior",
+    "date": "2026-06-23",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Really good. Excited about the school trip next week."
+    }
+  },
+  {
+    "student_id": "S_006",
+    "student_name": "Mei Lin",
+    "age_group": "senior",
+    "date": "2026-06-24",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Pretty solid day, nothing major but all good."
+    }
+  },
+  {
+    "student_id": "S_006",
+    "student_name": "Mei Lin",
+    "age_group": "senior",
+    "date": "2026-06-25",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Good. Had lunch with my whole friend group."
+    }
+  },
+  {
+    "student_id": "S_006",
+    "student_name": "Mei Lin",
+    "age_group": "senior",
+    "date": "2026-06-26",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Excellent! Passed my driving test theory exam."
+    }
+  },
+  {
+    "student_id": "S_006",
+    "student_name": "Mei Lin",
+    "age_group": "senior",
+    "date": "2026-06-27",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Good day overall. Feeling calm and ready for exams."
+    }
+  },
+  {
+    "student_id": "S_006",
+    "student_name": "Mei Lin",
+    "age_group": "senior",
+    "date": "2026-06-28",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Really positive. Feeling confident about everything."
+    }
+  },
+  {
+    "student_id": "S_007",
+    "student_name": "Carlos Reyes",
+    "age_group": "junior",
+    "date": "2026-06-22",
+    "junior_input": {
+      "emoji_sequence": "😊😄🌟"
+    }
+  },
+  {
+    "student_id": "S_007",
+    "student_name": "Carlos Reyes",
+    "age_group": "junior",
+    "date": "2026-06-23",
+    "junior_input": {
+      "emoji_sequence": "😊😄🌟"
+    }
+  },
+  {
+    "student_id": "S_007",
+    "student_name": "Carlos Reyes",
+    "age_group": "junior",
+    "date": "2026-06-24",
+    "junior_input": {
+      "emoji_sequence": "🙂🌤️"
+    }
+  },
+  {
+    "student_id": "S_007",
+    "student_name": "Carlos Reyes",
+    "age_group": "junior",
+    "date": "2026-06-25",
+    "junior_input": {
+      "emoji_sequence": "😊😄🌟"
+    }
+  },
+  {
+    "student_id": "S_007",
+    "student_name": "Carlos Reyes",
+    "age_group": "junior",
+    "date": "2026-06-26",
+    "junior_input": {
+      "emoji_sequence": "😃🌟😊"
+    }
+  },
+  {
+    "student_id": "S_007",
+    "student_name": "Carlos Reyes",
+    "age_group": "junior",
+    "date": "2026-06-27",
+    "junior_input": {
+      "emoji_sequence": "😃🌟😊"
+    }
+  },
+  {
+    "student_id": "S_007",
+    "student_name": "Carlos Reyes",
+    "age_group": "junior",
+    "date": "2026-06-28",
+    "junior_input": {
+      "emoji_sequence": "😁🌟🎉"
+    }
+  },
+  {
+    "student_id": "S_008",
+    "student_name": "Amara Diallo",
+    "age_group": "senior",
+    "date": "2026-06-22",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Doing well today. Feeling rested."
+    }
+  },
+  {
+    "student_id": "S_008",
+    "student_name": "Amara Diallo",
+    "age_group": "senior",
+    "date": "2026-06-23",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Pretty normal day. All good."
+    }
+  },
+  {
+    "student_id": "S_008",
+    "student_name": "Amara Diallo",
+    "age_group": "senior",
+    "date": "2026-06-24",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Good. Caught up with my cousin after school."
+    }
+  },
+  {
+    "student_id": "S_008",
+    "student_name": "Amara Diallo",
+    "age_group": "senior",
+    "date": "2026-06-25",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Doing fine. A bit tired but okay."
+    }
+  },
+  {
+    "student_id": "S_008",
+    "student_name": "Amara Diallo",
+    "age_group": "senior",
+    "date": "2026-06-26",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Pretty solid. Good lunch, good classes."
+    }
+  },
+  {
+    "student_id": "S_008",
+    "student_name": "Amara Diallo",
+    "age_group": "senior",
+    "date": "2026-06-27",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Feeling good. Looking forward to the weekend."
+    }
+  },
+  {
+    "student_id": "S_008",
+    "student_name": "Amara Diallo",
+    "age_group": "senior",
+    "date": "2026-06-28",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Really good. Had a fun group project today."
+    }
+  },
+  {
+    "student_id": "S_010",
+    "student_name": "Noah Fitzgerald",
+    "age_group": "junior",
+    "date": "2026-06-22",
+    "junior_input": {
+      "emoji_sequence": "😌🙂😊"
+    }
+  },
+  {
+    "student_id": "S_010",
+    "student_name": "Noah Fitzgerald",
+    "age_group": "junior",
+    "date": "2026-06-23",
+    "junior_input": {
+      "emoji_sequence": "🙂😌"
+    }
+  },
+  {
+    "student_id": "S_010",
+    "student_name": "Noah Fitzgerald",
+    "age_group": "junior",
+    "date": "2026-06-24",
+    "junior_input": {
+      "emoji_sequence": "🙂🌤️"
+    }
+  },
+  {
+    "student_id": "S_010",
+    "student_name": "Noah Fitzgerald",
+    "age_group": "junior",
+    "date": "2026-06-25",
+    "junior_input": {
+      "emoji_sequence": "😊😌"
+    }
+  },
+  {
+    "student_id": "S_010",
+    "student_name": "Noah Fitzgerald",
+    "age_group": "junior",
+    "date": "2026-06-26",
+    "junior_input": {
+      "emoji_sequence": "🙂😌"
+    }
+  },
+  {
+    "student_id": "S_010",
+    "student_name": "Noah Fitzgerald",
+    "age_group": "junior",
+    "date": "2026-06-27",
+    "junior_input": {
+      "emoji_sequence": "🥰😄✨"
+    }
+  },
+  {
+    "student_id": "S_010",
+    "student_name": "Noah Fitzgerald",
+    "age_group": "junior",
+    "date": "2026-06-28",
+    "junior_input": {
+      "emoji_sequence": "😊😄🌟"
+    }
+  },
+  {
+    "student_id": "S_011",
+    "student_name": "Kezia Adeyemi",
+    "age_group": "junior",
+    "date": "2026-06-22",
+    "junior_input": {
+      "emoji_sequence": "😁🌟🎉"
+    }
+  },
+  {
+    "student_id": "S_011",
+    "student_name": "Kezia Adeyemi",
+    "age_group": "junior",
+    "date": "2026-06-23",
+    "junior_input": {
+      "emoji_sequence": "😃🌟😊"
+    }
+  },
+  {
+    "student_id": "S_011",
+    "student_name": "Kezia Adeyemi",
+    "age_group": "junior",
+    "date": "2026-06-24",
+    "junior_input": {
+      "emoji_sequence": "😁🌟🎉"
+    }
+  },
+  {
+    "student_id": "S_011",
+    "student_name": "Kezia Adeyemi",
+    "age_group": "junior",
+    "date": "2026-06-25",
+    "junior_input": {
+      "emoji_sequence": "😃🌟😊"
+    }
+  },
+  {
+    "student_id": "S_011",
+    "student_name": "Kezia Adeyemi",
+    "age_group": "junior",
+    "date": "2026-06-26",
+    "junior_input": {
+      "emoji_sequence": "😁🌟🎉"
+    }
+  },
+  {
+    "student_id": "S_011",
+    "student_name": "Kezia Adeyemi",
+    "age_group": "junior",
+    "date": "2026-06-27",
+    "junior_input": {
+      "emoji_sequence": "😄🌈😁"
+    }
+  },
+  {
+    "student_id": "S_011",
+    "student_name": "Kezia Adeyemi",
+    "age_group": "junior",
+    "date": "2026-06-28",
+    "junior_input": {
+      "emoji_sequence": "😊😄🌟"
+    }
+  },
+  {
+    "student_id": "S_013",
+    "student_name": "Liam Svensson",
+    "age_group": "senior",
+    "date": "2026-06-22",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Okay day. Nothing special."
+    }
+  },
+  {
+    "student_id": "S_013",
+    "student_name": "Liam Svensson",
+    "age_group": "senior",
+    "date": "2026-06-23",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Pretty good actually. Had fun in PE."
+    }
+  },
+  {
+    "student_id": "S_013",
+    "student_name": "Liam Svensson",
+    "age_group": "senior",
+    "date": "2026-06-24",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Solid day. Finished my homework early."
+    }
+  },
+  {
+    "student_id": "S_013",
+    "student_name": "Liam Svensson",
+    "age_group": "senior",
+    "date": "2026-06-25",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Alright. A bit bored in some classes."
+    }
+  },
+  {
+    "student_id": "S_013",
+    "student_name": "Liam Svensson",
+    "age_group": "senior",
+    "date": "2026-06-26",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Pretty good. Feeling calm."
+    }
+  },
+  {
+    "student_id": "S_013",
+    "student_name": "Liam Svensson",
+    "age_group": "senior",
+    "date": "2026-06-27",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Decent day overall."
+    }
+  },
+  {
+    "student_id": "S_013",
+    "student_name": "Liam Svensson",
+    "age_group": "senior",
+    "date": "2026-06-28",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Good enough. Ready for the weekend."
+    }
+  },
+  {
+    "student_id": "S_014",
+    "student_name": "Yuna Tanaka",
+    "age_group": "junior",
+    "date": "2026-06-22",
+    "junior_input": {
+      "emoji_sequence": "😊😄🌟"
+    }
+  },
+  {
+    "student_id": "S_014",
+    "student_name": "Yuna Tanaka",
+    "age_group": "junior",
+    "date": "2026-06-23",
+    "junior_input": {
+      "emoji_sequence": "😄🌈😁"
+    }
+  },
+  {
+    "student_id": "S_014",
+    "student_name": "Yuna Tanaka",
+    "age_group": "junior",
+    "date": "2026-06-24",
+    "junior_input": {
+      "emoji_sequence": "😌🙂😊"
+    }
+  },
+  {
+    "student_id": "S_014",
+    "student_name": "Yuna Tanaka",
+    "age_group": "junior",
+    "date": "2026-06-25",
+    "junior_input": {
+      "emoji_sequence": "😊😄🌟"
+    }
+  },
+  {
+    "student_id": "S_014",
+    "student_name": "Yuna Tanaka",
+    "age_group": "junior",
+    "date": "2026-06-26",
+    "junior_input": {
+      "emoji_sequence": "😄🌈😁"
+    }
+  },
+  {
+    "student_id": "S_014",
+    "student_name": "Yuna Tanaka",
+    "age_group": "junior",
+    "date": "2026-06-27",
+    "junior_input": {
+      "emoji_sequence": "😊😄🌟"
+    }
+  },
+  {
+    "student_id": "S_014",
+    "student_name": "Yuna Tanaka",
+    "age_group": "junior",
+    "date": "2026-06-28",
+    "junior_input": {
+      "emoji_sequence": "🥰😄✨"
+    }
+  },
+  {
+    "student_id": "S_015",
+    "student_name": "Omar Hassan",
+    "age_group": "senior",
+    "date": "2026-06-22",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Feeling alright today."
+    }
+  },
+  {
+    "student_id": "S_015",
+    "student_name": "Omar Hassan",
+    "age_group": "senior",
+    "date": "2026-06-23",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Pretty good. Made a new friend in art class."
+    }
+  },
+  {
+    "student_id": "S_015",
+    "student_name": "Omar Hassan",
+    "age_group": "senior",
+    "date": "2026-06-24",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Okay day. Nothing bad happened."
+    }
+  },
+  {
+    "student_id": "S_015",
+    "student_name": "Omar Hassan",
+    "age_group": "senior",
+    "date": "2026-06-25",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Decent. Feeling a bit tired but managing."
+    }
+  },
+  {
+    "student_id": "S_015",
+    "student_name": "Omar Hassan",
+    "age_group": "senior",
+    "date": "2026-06-26",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Pretty solid day."
+    }
+  },
+  {
+    "student_id": "S_015",
+    "student_name": "Omar Hassan",
+    "age_group": "senior",
+    "date": "2026-06-27",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Good. Looking forward to the holidays."
+    }
+  },
+  {
+    "student_id": "S_015",
+    "student_name": "Omar Hassan",
+    "age_group": "senior",
+    "date": "2026-06-28",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Alright. All good."
+    }
+  },
+  {
+    "student_id": "S_016",
+    "student_name": "Isabelle Dupont",
+    "age_group": "senior",
+    "date": "2026-06-22",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Good day! Really enjoyed French class."
+    }
+  },
+  {
+    "student_id": "S_016",
+    "student_name": "Isabelle Dupont",
+    "age_group": "senior",
+    "date": "2026-06-23",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Pretty good. Hung out with my friend group."
+    }
+  },
+  {
+    "student_id": "S_016",
+    "student_name": "Isabelle Dupont",
+    "age_group": "senior",
+    "date": "2026-06-24",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Solid. Nothing to complain about."
+    }
+  },
+  {
+    "student_id": "S_016",
+    "student_name": "Isabelle Dupont",
+    "age_group": "senior",
+    "date": "2026-06-25",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Good. Feeling happy and relaxed."
+    }
+  },
+  {
+    "student_id": "S_016",
+    "student_name": "Isabelle Dupont",
+    "age_group": "senior",
+    "date": "2026-06-26",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Really nice day. Sun was out at lunch."
+    }
+  },
+  {
+    "student_id": "S_016",
+    "student_name": "Isabelle Dupont",
+    "age_group": "senior",
+    "date": "2026-06-27",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Pretty great. Drama rehearsal was fun."
+    }
+  },
+  {
+    "student_id": "S_016",
+    "student_name": "Isabelle Dupont",
+    "age_group": "senior",
+    "date": "2026-06-28",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Good week overall. Feeling positive."
+    }
+  },
+  {
+    "student_id": "S_019",
+    "student_name": "Ben Okafor",
+    "age_group": "senior",
+    "date": "2026-06-22",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Feeling kind of anxious about my exams. Not sure I'm ready."
+    }
+  },
+  {
+    "student_id": "S_019",
+    "student_name": "Ben Okafor",
+    "age_group": "senior",
+    "date": "2026-06-23",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Still a bit worried but I've started studying more."
+    }
+  },
+  {
+    "student_id": "S_019",
+    "student_name": "Ben Okafor",
+    "age_group": "senior",
+    "date": "2026-06-24",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Getting better. Studied with a friend which helped."
+    }
+  },
+  {
+    "student_id": "S_019",
+    "student_name": "Ben Okafor",
+    "age_group": "senior",
+    "date": "2026-06-25",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Feeling more prepared now. Less anxious."
+    }
+  },
+  {
+    "student_id": "S_019",
+    "student_name": "Ben Okafor",
+    "age_group": "senior",
+    "date": "2026-06-26",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Doing well. Got some good feedback on my practice exam."
+    }
+  },
+  {
+    "student_id": "S_019",
+    "student_name": "Ben Okafor",
+    "age_group": "senior",
+    "date": "2026-06-27",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Feeling confident. I think I've got this."
+    }
+  },
+  {
+    "student_id": "S_019",
+    "student_name": "Ben Okafor",
+    "age_group": "senior",
+    "date": "2026-06-28",
+    "senior_input": {
+      "prompt": "How are you feeling today and why?",
+      "response": "Really good. Feeling prepared and calm about everything."
+    }
+  },
+  {
+    "student_id": "S_020",
+    "student_name": "Hana Kobayashi",
+    "age_group": "junior",
+    "date": "2026-06-22",
+    "junior_input": {
+      "emoji_sequence": "😃🌟😊"
+    }
+  },
+  {
+    "student_id": "S_020",
+    "student_name": "Hana Kobayashi",
+    "age_group": "junior",
+    "date": "2026-06-23",
+    "junior_input": {
+      "emoji_sequence": "🥰😄✨"
+    }
+  },
+  {
+    "student_id": "S_020",
+    "student_name": "Hana Kobayashi",
+    "age_group": "junior",
+    "date": "2026-06-24",
+    "junior_input": {
+      "emoji_sequence": "😃🌟😊"
+    }
+  },
+  {
+    "student_id": "S_020",
+    "student_name": "Hana Kobayashi",
+    "age_group": "junior",
+    "date": "2026-06-25",
+    "junior_input": {
+      "emoji_sequence": "😄🌈😁"
+    }
+  },
+  {
+    "student_id": "S_020",
+    "student_name": "Hana Kobayashi",
+    "age_group": "junior",
+    "date": "2026-06-26",
+    "junior_input": {
+      "emoji_sequence": "😃🌟😊"
+    }
+  },
+  {
+    "student_id": "S_020",
+    "student_name": "Hana Kobayashi",
+    "age_group": "junior",
+    "date": "2026-06-27",
+    "junior_input": {
+      "emoji_sequence": "😃🌟😊"
+    }
+  },
+  {
+    "student_id": "S_020",
+    "student_name": "Hana Kobayashi",
+    "age_group": "junior",
+    "date": "2026-06-28",
+    "junior_input": {
+      "emoji_sequence": "😄🌈😁"
+    }
+  }
+]

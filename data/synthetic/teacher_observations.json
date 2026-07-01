@@ -1,0 +1,128 @@
+[
+  {
+    "date": "2026-06-22",
+    "student_id": "S_017",
+    "teacher_id": "T_01",
+    "note": "Lily seemed quieter than usual during morning circle. Didn't participate in group activity.",
+    "flag_level": "watch"
+  },
+  {
+    "date": "2026-06-22",
+    "student_id": "S_003",
+    "teacher_id": "T_02",
+    "note": "Aisha appeared a bit withdrawn during group work today. Said she was tired.",
+    "flag_level": "watch"
+  },
+  {
+    "date": "2026-06-23",
+    "student_id": "S_009",
+    "teacher_id": "T_01",
+    "note": "Marcus was energetic and engaged today. No concerns.",
+    "flag_level": "none"
+  },
+  {
+    "date": "2026-06-23",
+    "student_id": "S_012",
+    "teacher_id": "T_03",
+    "note": "Priya has been sitting alone at lunch for the past few days. Worth monitoring.",
+    "flag_level": "watch"
+  },
+  {
+    "date": "2026-06-24",
+    "student_id": "S_017",
+    "teacher_id": "T_01",
+    "note": "Lily was very quiet again. Did not speak during reading time. Seems down.",
+    "flag_level": "watch"
+  },
+  {
+    "date": "2026-06-24",
+    "student_id": "S_004",
+    "teacher_id": "T_02",
+    "note": "Rohan participated well in class discussion. All seems fine.",
+    "flag_level": "none"
+  },
+  {
+    "date": "2026-06-25",
+    "student_id": "S_003",
+    "teacher_id": "T_03",
+    "note": "Aisha barely ate at lunch today. Seemed very distracted and didn't make eye contact.",
+    "flag_level": "concern"
+  },
+  {
+    "date": "2026-06-25",
+    "student_id": "S_011",
+    "teacher_id": "T_01",
+    "note": "Kezia had a great day — really engaged in the science project.",
+    "flag_level": "none"
+  },
+  {
+    "date": "2026-06-26",
+    "student_id": "S_017",
+    "teacher_id": "T_01",
+    "note": "Lily has been crying at the start of class. Wouldn't say why. Flagging for counsellor attention.",
+    "flag_level": "concern"
+  },
+  {
+    "date": "2026-06-26",
+    "student_id": "S_018",
+    "teacher_id": "T_02",
+    "note": "Zara seemed upset today. Said her friend group has been leaving her out.",
+    "flag_level": "watch"
+  },
+  {
+    "date": "2026-06-26",
+    "student_id": "S_012",
+    "teacher_id": "T_03",
+    "note": "Priya has not been participating. Seems low energy. Her friend mentioned she hasn't been eating much.",
+    "flag_level": "concern"
+  },
+  {
+    "date": "2026-06-27",
+    "student_id": "S_009",
+    "teacher_id": "T_01",
+    "note": "Marcus seemed really down today. Out of character for him. Crying briefly during quiet reading.",
+    "flag_level": "concern"
+  },
+  {
+    "date": "2026-06-27",
+    "student_id": "S_004",
+    "teacher_id": "T_02",
+    "note": "Rohan seemed a bit quieter than usual but nothing alarming.",
+    "flag_level": "none"
+  },
+  {
+    "date": "2026-06-27",
+    "student_id": "S_003",
+    "teacher_id": "T_03",
+    "note": "Aisha left class early saying she felt unwell. This is the third time this week.",
+    "flag_level": "concern"
+  },
+  {
+    "date": "2026-06-28",
+    "student_id": "S_004",
+    "teacher_id": "T_02",
+    "note": "Rohan sat alone all of lunch and did not speak to anyone. He seemed visibly distressed. Very out of character — he is normally very social. Flagging as urgent concern.",
+    "flag_level": "concern"
+  },
+  {
+    "date": "2026-06-28",
+    "student_id": "S_017",
+    "teacher_id": "T_01",
+    "note": "Lily refused to come in from the playground this morning. Has been crying consistently. Maya, her usual friend, mentioned Lily told her she doesn't want to come to school anymore.",
+    "flag_level": "concern"
+  },
+  {
+    "date": "2026-06-28",
+    "student_id": "S_009",
+    "teacher_id": "T_01",
+    "note": "Marcus is still very down. Second day in a row. Recommend counsellor check-in.",
+    "flag_level": "concern"
+  },
+  {
+    "date": "2026-06-28",
+    "student_id": "S_018",
+    "teacher_id": "T_03",
+    "note": "Zara was tearful again today. Social exclusion from friend group ongoing.",
+    "flag_level": "watch"
+  }
+]

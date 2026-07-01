@@ -1,0 +1,162 @@
+[
+  {
+    "student_id": "S_004",
+    "fictional_name": "Rohan Mehta",
+    "age_group": "senior",
+    "age": 15,
+    "_arc_label": "urgent_pattern_break",
+    "_arc_note": "Stable baseline then single-day crash on day 7 with distress keyword"
+  },
+  {
+    "student_id": "S_017",
+    "fictional_name": "Lily Chen",
+    "age_group": "junior",
+    "age": 8,
+    "_arc_label": "urgent_consecutive_low",
+    "_arc_note": "4 consecutive low-mood days; escalates to urgent on day 6"
+  },
+  {
+    "student_id": "S_003",
+    "fictional_name": "Aisha Johnson",
+    "age_group": "senior",
+    "age": 14,
+    "_arc_label": "elevated_declining",
+    "_arc_note": "Slow decline: starts near 0, ends at -0.4 on day 7"
+  },
+  {
+    "student_id": "S_009",
+    "fictional_name": "Marcus Rivera",
+    "age_group": "junior",
+    "age": 7,
+    "_arc_label": "elevated_late_dip",
+    "_arc_note": "Two consecutive low days at end of window; elevated watch"
+  },
+  {
+    "student_id": "S_012",
+    "fictional_name": "Priya Nair",
+    "age_group": "senior",
+    "age": 16,
+    "_arc_label": "elevated_persistent_low_energy",
+    "_arc_note": "Low energy + mild withdrawal; valence borderline but not urgent"
+  },
+  {
+    "student_id": "S_018",
+    "fictional_name": "Zara Okonkwo",
+    "age_group": "junior",
+    "age": 9,
+    "_arc_label": "elevated_inconsistent",
+    "_arc_note": "Non-consecutive low days; declining trajectory, no urgent threshold"
+  },
+  {
+    "student_id": "S_001",
+    "fictional_name": "Ethan Park",
+    "age_group": "junior",
+    "age": 6,
+    "_arc_label": "routine_stable",
+    "_arc_note": "Consistently positive; small daily variance"
+  },
+  {
+    "student_id": "S_002",
+    "fictional_name": "Sofia Martins",
+    "age_group": "senior",
+    "age": 13,
+    "_arc_label": "routine_improving",
+    "_arc_note": "Started mildly low day 1, improved steadily"
+  },
+  {
+    "student_id": "S_005",
+    "fictional_name": "James Oduya",
+    "age_group": "junior",
+    "age": 10,
+    "_arc_label": "routine_stable",
+    "_arc_note": "Strong positive signals throughout"
+  },
+  {
+    "student_id": "S_006",
+    "fictional_name": "Mei Lin",
+    "age_group": "senior",
+    "age": 17,
+    "_arc_label": "routine_stable",
+    "_arc_note": "High valence, engaged; model routine case"
+  },
+  {
+    "student_id": "S_007",
+    "fictional_name": "Carlos Reyes",
+    "age_group": "junior",
+    "age": 7,
+    "_arc_label": "routine_stable",
+    "_arc_note": "Positive with one neutral day"
+  },
+  {
+    "student_id": "S_008",
+    "fictional_name": "Amara Diallo",
+    "age_group": "senior",
+    "age": 15,
+    "_arc_label": "routine_stable",
+    "_arc_note": "Steady positive, minimal variance"
+  },
+  {
+    "student_id": "S_010",
+    "fictional_name": "Noah Fitzgerald",
+    "age_group": "junior",
+    "age": 9,
+    "_arc_label": "routine_improving",
+    "_arc_note": "Neutral start, improving by day 4"
+  },
+  {
+    "student_id": "S_011",
+    "fictional_name": "Kezia Adeyemi",
+    "age_group": "junior",
+    "age": 8,
+    "_arc_label": "routine_stable",
+    "_arc_note": "7-day valence all above +0.4; false-positive test case"
+  },
+  {
+    "student_id": "S_013",
+    "fictional_name": "Liam Svensson",
+    "age_group": "senior",
+    "age": 12,
+    "_arc_label": "routine_stable",
+    "_arc_note": "Positive, moderate energy"
+  },
+  {
+    "student_id": "S_014",
+    "fictional_name": "Yuna Tanaka",
+    "age_group": "junior",
+    "age": 6,
+    "_arc_label": "routine_stable",
+    "_arc_note": "Cheerful; small dip day 3, recovers day 4"
+  },
+  {
+    "student_id": "S_015",
+    "fictional_name": "Omar Hassan",
+    "age_group": "senior",
+    "age": 11,
+    "_arc_label": "routine_stable",
+    "_arc_note": "Stable, moderately positive"
+  },
+  {
+    "student_id": "S_016",
+    "fictional_name": "Isabelle Dupont",
+    "age_group": "senior",
+    "age": 14,
+    "_arc_label": "routine_stable",
+    "_arc_note": "Positive signals, no flags"
+  },
+  {
+    "student_id": "S_019",
+    "fictional_name": "Ben Okafor",
+    "age_group": "senior",
+    "age": 16,
+    "_arc_label": "routine_improving",
+    "_arc_note": "Mildly anxious day 1 text, then improves"
+  },
+  {
+    "student_id": "S_020",
+    "fictional_name": "Hana Kobayashi",
+    "age_group": "junior",
+    "age": 10,
+    "_arc_label": "routine_stable",
+    "_arc_note": "High energy, consistently positive"
+  }
+]
