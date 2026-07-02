@@ -1,6 +1,10 @@
-anthropic>=0.40.0
+google-genai>=0.8.0
 spacy>=3.7.0
 pytest>=8.0.0
 
 # After pip install, run once:
 #   python -m spacy download en_core_web_sm
+#
+# google-genai is required for the text-path LLM call in reader.py and for
+# demo/Kaggle runs (RealSignalLLM, RealOrchestratorLLM).
+# Integration tests (T1–T6) use Fake* stubs and run without any API credentials.

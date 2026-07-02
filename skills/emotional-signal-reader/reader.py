@@ -4,7 +4,7 @@ emotional-signal-reader skill implementation.
 Converts sanitised student check-in records into structured signal objects.
 Three modality paths:
   A. Emoji  (junior)   — deterministic lookup table
-  B. Text   (senior)   — LLM reasoning via Anthropic API
+  B. Text   (senior)   — LLM reasoning via Gemini 2.0 Flash
   C. Teacher note      — flag_level map + distress keyword scan
 Merges when multiple modalities are present for the same record.
 
@@ -152,10 +152,6 @@ def _parse_text_signal(
         confidence = 0.3
 
     try:
-        if client is None:
-            import anthropic  # noqa: PLC0415
-            client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
-
         prompt = f"""You are analyzing a student's check-in response for emotional signals.
 
 Student response: "{response}"
@@ -173,12 +169,20 @@ Rules:
 - distress_keywords_detected contains literal phrases from the text, not paraphrases
 - Do not invent content not in the response"""
 
-        message = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=256,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        raw = message.content[0].text.strip()
+        if client is None:
+            from google import genai  # noqa: PLC0415
+            _gemini = genai.Client(api_key=os.environ.get("GOOGLE_API_KEY"))
+            raw = _gemini.models.generate_content(
+                model="gemini-2.0-flash", contents=prompt
+            ).text.strip()
+        else:
+            # Injected client (FakeSignalLLM in tests, RealSignalLLM in demo)
+            # exposes an Anthropic-shaped .messages.create() interface.
+            raw = client.messages.create(
+                model="gemini-2.0-flash",
+                max_tokens=256,
+                messages=[{"role": "user", "content": prompt}],
+            ).content[0].text.strip()
 
         # Strip any accidental markdown fences
         if raw.startswith("```"):

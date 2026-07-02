@@ -24,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import agents.signal_detector as sd
 
-_HAS_API_KEY = bool(os.environ.get("ANTHROPIC_API_KEY"))
+_HAS_API_KEY = bool(os.environ.get("GOOGLE_API_KEY"))
 
 VALID_MANIFEST = {
     "pii_masking_applied": True,
@@ -102,12 +102,12 @@ def test_esr_emoji_positive_003():
     assert sig["raw_input_type"] == "emoji"
 
 
-@pytest.mark.skipif(not _HAS_API_KEY, reason="ANTHROPIC_API_KEY not set")
+@pytest.mark.skipif(not _HAS_API_KEY, reason="GOOGLE_API_KEY not set")
 def test_esr_text_withdrawal_002():
     """
     Senior student with explicit withdrawal language.
     Expected: valence < -0.5, withdrawal=True, distress keywords captured, type=text.
-    Requires a live Anthropic API call.
+    Requires a live Gemini 2.0 Flash API call (reader.py text path, no client injected).
     """
     record = _make_record(
         student_id="S_004",
