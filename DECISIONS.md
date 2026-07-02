@@ -41,12 +41,21 @@ Phase 4 prototyped `reader.py` (the emotional-signal-reader skill) against
 `claude-haiku-4-5-20251001` (Anthropic). SPEC.md specifies Gemini 2.0 Flash for
 all LLM calls in the final system.
 
-Phase 5 corrects this by replacing `RealSignalLLM` and `RealOrchestratorLLM` with
-Gemini 2.0 Flash wrappers (`google-genai` SDK, `GOOGLE_API_KEY`). The Phase 4 skill
-unit test (`test_esr_text_withdrawal_002`) retains its `ANTHROPIC_API_KEY` guard
-because it calls `reader.py` directly — that code path still uses Anthropic and the
-test explicitly documents why. The Phase 5 demo (Kaggle notebook) uses the corrected
-`RealSignalLLM` path.
+Phase 5 fully migrates to Gemini 2.0 Flash: `RealSignalLLM` and `RealOrchestratorLLM`
+wrap the `google-genai` SDK, and `reader.py`'s own fallback (no injected client) now
+calls `genai.Client` directly. `test_esr_text_withdrawal_002` is gated on
+`GOOGLE_API_KEY` and skipped in CI when the key is absent.
+
+### Platform: Vertex AI Agent Engine → Google AI Studio
+
+The original SPEC targeted Google Vertex AI Agent Engine as the runtime platform.
+The implementation uses Google AI Studio (Gemini API) with `GOOGLE_API_KEY`
+authentication instead.
+
+**Reason:** Google AI Studio is freely accessible to all Kaggle competition participants
+without a GCP project, billing account, or IAM setup — in line with competition §6.b
+(equal accessibility requirement). The underlying model (`gemini-2.0-flash`) and all
+LLM behaviour are unchanged.
 
 ### Arc-label vs. algorithm discrepancy (noted at Phase 5 integration run)
 

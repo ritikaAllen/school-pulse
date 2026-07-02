@@ -314,7 +314,8 @@ data/
 
 ```yaml
 runtime:
-  platform: Google Vertex AI Agent Engine
+  platform: Google AI Studio (Gemini API)
+  auth: GOOGLE_API_KEY
   language: Python 3.11
   agent_framework: Google ADK (Agent Development Kit)
 
