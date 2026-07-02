@@ -112,17 +112,18 @@ GOOGLE_API_KEY=<your-key> pytest tests/test_signal_detector.py -v
 ### Demo run (full pipeline with real LLM)
 
 ```python
-import os
-from agents.orchestrator import SchoolPulseOrchestrator
+from pathlib import Path
+from agents.orchestrator import SchoolPulseOrchestrator, load_data, DEMO_DATES
 from agents.llm_interface import RealSignalLLM, RealOrchestratorLLM
+
+checkins, teacher_obs, registry = load_data(Path("data/synthetic"))
 
 orchestrator = SchoolPulseOrchestrator(
     signal_llm=RealSignalLLM(),           # reads GOOGLE_API_KEY
     orchestrator_llm=RealOrchestratorLLM(),
     hitl_callback=None,                   # interactive CLI prompt
 )
-# Run all 7 days; memory accumulates across dates
-results = orchestrator.run_sequential_days(dates, checkins, observations, registry)
+results = orchestrator.run_sequential_days(DEMO_DATES, checkins, teacher_obs, registry)
 ```
 
 Set `GOOGLE_API_KEY` in your environment before running. The `Fake*` stubs are the default when no LLM is passed — useful for notebooks and offline development.
@@ -185,3 +186,16 @@ See [DECISIONS.md](DECISIONS.md) for documented trade-offs, including:
 - LLM seam strategy: fake stubs for integration tests, real Gemini for demo
 - Why Google AI Studio was chosen over Vertex AI Agent Engine
 - Arc-label vs. algorithm discrepancies found during integration
+
+---
+
+## Acknowledgements
+
+Built as a capstone for the [Kaggle AI Agents Intensive 2026](https://www.kaggle.com/competitions/vibecoding-agents-capstone-project) course. <br/>
+Course whitepapers © Google, licensed CC-BY 4.0.<br/>
+Project planning and architecture via Claude.ai (Anthropic).<br/>
+Implementation scaffolding via Claude Code (Anthropic).
+
+## License
+
+[CC-BY 4.0](LICENSE)
