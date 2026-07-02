@@ -2,7 +2,7 @@
 
 ## LLM Seam Strategy (Phase 5)
 
-**Decision: Option B — Fake LLM stub for integration tests; real LLM for demo only.**
+**Decision: Fake LLM stubs for integration tests; real LLM injected for demo only.**
 
 The pipeline contains two LLM seams:
 
