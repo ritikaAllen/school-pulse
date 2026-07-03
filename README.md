@@ -159,7 +159,7 @@ Set `GOOGLE_API_KEY` in your environment before running. The `Fake*` stubs are t
 | Concept | Where in this project |
 |---|---|
 | Multi-Agent Systems | Three cooperating sub-agents coordinated by Orchestrator |
-| MCP (Model Context Protocol) | Teacher observations ingested from Google Sheets via MCP connector |
+| MCP (Model Context Protocol) | MCP layer architected for Google Sheets ingestion; demo uses local JSON fixtures from `data/synthetic/` — no live Sheets connection required |
 | Long-Term Memory | Memory Keeper: 7-day rolling per-student window with baseline tracking |
 | LLM-as-Judge Evaluation | 5-criterion rubric evaluated on every Daily Brief; pass threshold 0.75 |
 | Context Hygiene | Privacy Guard: PII masking, 7-day context window, cross-student boundary enforcement |

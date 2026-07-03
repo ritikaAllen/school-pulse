@@ -1,7 +1,7 @@
 ---
 component: hitl-gate
 type: human-in-the-loop gate
-course-concept: Human-in-the-Loop (Day 5)
+course-concept: Human-in-the-Loop
 upstream: orchestrator         # receives Daily Brief from Orchestrator
 trigger: Daily Brief assembled and judge score >= 0.75
 ---

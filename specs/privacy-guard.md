@@ -12,7 +12,7 @@ downstream: signal-detector    # emits sanitised records to Signal Detector
 Mandatory first-pass gate for every record entering the pipeline.
 No data reaches Signal Detector, Memory Keeper, or any LLM context
 window without passing through Privacy Guard first. Implements three
-context hygiene techniques from Day 5: PII masking, context windowing,
+context hygiene techniques: PII masking, context windowing,
 and memory boundary enforcement.
 
 ---

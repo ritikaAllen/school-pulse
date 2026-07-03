@@ -262,7 +262,7 @@ NEGATIVE CASE:
 
 | Course Concept | Component in This System |
 |---|---|
-| **MCP (Model Context Protocol)** | Teacher observations ingested from Google Sheets via MCP connector; Orchestrator reads check-in records via MCP |
+| **MCP (Model Context Protocol)** | MCP layer architected for Google Sheets ingestion (check-ins + teacher observations); demo uses local JSON fixtures from `data/synthetic/` — no live Sheets connection required |
 | **Multi-Agent Systems** | Three cooperating sub-agents (Signal Detector, Memory Keeper, Privacy Guard) coordinated by Orchestrator |
 | **Long-Term Memory** | Memory Keeper maintains 7-day rolling per-student memory with trend vectors and baseline tracking |
 | **Context Hygiene / ContextResolver** | Privacy Guard enforces three techniques: PII masking, context windowing (7-day max), memory boundary enforcement |
@@ -471,14 +471,14 @@ ROUTINE (14 students): No action required today.
 ## 12. Build Phases (Post-Spec)
 
 ```
-Phase 1 (NOW COMPLETE): SPEC.md
-Phase 2: SKILL.md files (emotional-signal-reader, student-trend-tracker, pii-context-sanitizer)
-         → Write EDD eval cases FIRST, then skill body
-Phase 3: Synthetic dataset generation (synthetic_checkins.json, teacher_observations.json)
-Phase 4: Sub-agents in isolation (build + test each against their eval cases)
-Phase 5: Orchestrator + MCP pipeline (connect sub-agents, wire Google Sheets MCP)
-Phase 6: LLM-as-judge synthesis layer (implement rubric, run evaluation)
-Phase 7: Competition writeup narrative
+Phase 1 ✓ SPEC.md
+Phase 2 ✓ SKILL.md files (emotional-signal-reader, student-trend-tracker, pii-context-sanitizer)
+Phase 3 ✓ Synthetic dataset generation (synthetic_checkins.json, teacher_observations.json)
+Phase 4 ✓ Sub-agents in isolation (build + test each against their eval cases)
+Phase 5 ✓ Orchestrator + LLM-as-judge + HITL gate; integration tests T1–T6 passing
+          Note: MCP layer is architected; demo uses local JSON fixtures (data/synthetic/)
+Phase 6 ✓ Full Gemini migration; google-genai SDK; GOOGLE_API_KEY auth
+Phase 7   Competition writeup / Kaggle notebook
 ```
 
 ---

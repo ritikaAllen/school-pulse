@@ -3,7 +3,7 @@ component: mcp-layer
 type: mcp-integration
 framework: Google ADK MCP client wrapper
 mcp-server: Google Sheets MCP
-course-concept: MCP — Model Context Protocol (Day 2)
+course-concept: MCP — Model Context Protocol
 downstream: privacy-guard      # raw records flow to Privacy Guard first
 ---
 
@@ -152,6 +152,6 @@ errors:
 
 - `specs/privacy-guard.md` — immediate downstream consumer of all MCP records
 - `specs/orchestrator.md` — owns the MCP layer invocation trigger
-- `SPEC.md` §6 — Course concept mapping (MCP — Day 2)
+- `SPEC.md` §6 — Course concept mapping (MCP)
 - `SPEC.md` §7 — Synthetic dataset schema
 - `SPEC.md` §8 — Tooling stack
