@@ -31,39 +31,36 @@ This system is a **multi-agent AI pipeline** that gives school counselors a dail
 ## 3. System Architecture Overview
 
 ```
+                    ┌──────────────┐
+                    │  MCP LAYER   │
+                    │  Google      │
+                    │  Sheets:     │
+                    │  check-ins + │
+                    │  teacher obs │
+                    └──────┬───────┘
+                           │
+                           ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                     ORCHESTRATOR AGENT                          │
 │              (coordinates pipeline, owns HITL gate)             │
 └───────────────────────┬─────────────────────────────────────────┘
-                        │  delegates to
+                        │  per student, per day
           ┌─────────────┼──────────────────┐
           ▼             ▼                  ▼
   ┌───────────────┐ ┌──────────────┐ ┌──────────────────┐
-  │ SIGNAL        │ │ MEMORY       │ │ PRIVACY          │
-  │ DETECTOR      │ │ KEEPER       │ │ GUARD            │
+  │ PRIVACY       │ │ SIGNAL       │ │ MEMORY           │
+  │ GUARD         │ │ DETECTOR     │ │ KEEPER           │
   │ Sub-Agent     │ │ Sub-Agent    │ │ Sub-Agent        │
   └───────┬───────┘ └──────┬───────┘ └────────┬─────────┘
           │                │                   │
-   uses skill:      uses skill:         uses skill:
-   emotional-       student-trend-      pii-context-
-   signal-reader    tracker             sanitizer
+   pii-context-    emotional-          student-trend-
+   sanitizer       signal-reader       tracker
           │                │                   │
           └────────────────┼───────────────────┘
                            │
                     ┌──────▼───────┐
-                    │  MCP LAYER   │
-                    │  (Google     │
-                    │  Sheets:     │
-                    │  teacher     │
-                    │  observations│
-                    │  + check-in  │
-                    │  data)       │
-                    └──────────────┘
-                           │
-                    ┌──────▼───────┐
                     │ LLM-AS-JUDGE │
                     │ EVAL LAYER   │
-                    │ (Day 4)      │
                     └──────────────┘
                            │
                     ┌──────▼───────┐
@@ -263,14 +260,14 @@ NEGATIVE CASE:
 
 ## 6. Course Concept → Component Mapping
 
-| Course Concept | Day | Component in This System |
-|---|---|---|
-| **MCP (Model Context Protocol)** | Day 2 | Teacher observations ingested from Google Sheets via MCP connector; Orchestrator reads check-in records via MCP |
-| **Multi-Agent Systems** | Day 2 | Three cooperating sub-agents (Signal Detector, Memory Keeper, Privacy Guard) coordinated by Orchestrator |
-| **Long-Term Memory** | Day 3 | Memory Keeper maintains 7-day rolling per-student memory with trend vectors and baseline tracking |
-| **Context Hygiene / ContextResolver** | Day 5 | Privacy Guard enforces three techniques: PII masking, context windowing (7-day max), memory boundary enforcement |
-| **LLM-as-Judge Evaluation** | Day 4 | Synthesis layer evaluates Orchestrator's daily brief against rubric: signal coverage, escalation accuracy, PII-free output, counselor action clarity |
-| **Human-in-the-Loop (HITL)** | Day 5 | Orchestrator halts and presents Daily Brief to counselor; no referral actions taken without explicit counselor sign-off |
+| Course Concept | Component in This System |
+|---|---|
+| **MCP (Model Context Protocol)** | Teacher observations ingested from Google Sheets via MCP connector; Orchestrator reads check-in records via MCP |
+| **Multi-Agent Systems** | Three cooperating sub-agents (Signal Detector, Memory Keeper, Privacy Guard) coordinated by Orchestrator |
+| **Long-Term Memory** | Memory Keeper maintains 7-day rolling per-student memory with trend vectors and baseline tracking |
+| **Context Hygiene / ContextResolver** | Privacy Guard enforces three techniques: PII masking, context windowing (7-day max), memory boundary enforcement |
+| **LLM-as-Judge Evaluation** | Synthesis layer evaluates Orchestrator's daily brief against rubric: signal coverage, escalation accuracy, PII-free output, counselor action clarity |
+| **Human-in-the-Loop (HITL)** | Orchestrator halts and presents Daily Brief to counselor; no referral actions taken without explicit counselor sign-off |
 
 ---
 

@@ -156,14 +156,14 @@ Set `GOOGLE_API_KEY` in your environment before running. The `Fake*` stubs are t
 
 ## Course concepts covered
 
-| Concept | Day | Where in this project |
-|---|---|---|
-| Multi-Agent Systems | 2 | Three cooperating sub-agents coordinated by Orchestrator |
-| MCP (Model Context Protocol) | 2 | Teacher observations ingested from Google Sheets via MCP connector |
-| Long-Term Memory | 3 | Memory Keeper: 7-day rolling per-student window with baseline tracking |
-| LLM-as-Judge Evaluation | 4 | 5-criterion rubric evaluated on every Daily Brief; pass threshold 0.75 |
-| Context Hygiene | 5 | Privacy Guard: PII masking, 7-day context window, cross-student boundary enforcement |
-| Human-in-the-Loop (HITL) | 5 | Orchestrator halts for counselor sign-off; no referral written without APPROVE_AND_LOG |
+| Concept | Where in this project |
+|---|---|
+| Multi-Agent Systems | Three cooperating sub-agents coordinated by Orchestrator |
+| MCP (Model Context Protocol) | Teacher observations ingested from Google Sheets via MCP connector |
+| Long-Term Memory | Memory Keeper: 7-day rolling per-student window with baseline tracking |
+| LLM-as-Judge Evaluation | 5-criterion rubric evaluated on every Daily Brief; pass threshold 0.75 |
+| Context Hygiene | Privacy Guard: PII masking, 7-day context window, cross-student boundary enforcement |
+| Human-in-the-Loop (HITL) | Orchestrator halts for counselor sign-off; no referral written without APPROVE_AND_LOG |
 
 ---
 
