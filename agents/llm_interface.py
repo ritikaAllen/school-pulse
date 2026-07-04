@@ -9,10 +9,10 @@ FakeSignalLLM  — mimics Anthropic client .messages.create() used by reader.py.
 
 FakeOrchestratorLLM — deterministic recommended_action + rubric-based judge.
 
-RealSignalLLM / RealOrchestratorLLM — Gemini 2.0 Flash wrappers for demo runs.
+RealSignalLLM / RealOrchestratorLLM — Gemini 2.5 Flash Lite wrappers for demo runs.
   Requires: pip install google-genai   and   GOOGLE_API_KEY env var.
   Phase 4 reader.py was originally prototyped with claude-haiku-4-5-20251001
-  (Anthropic). Phase 5 corrects the Real* demo path to Gemini 2.0 Flash per
+  (Anthropic). Phase 5 corrects the Real* demo path to Gemini 2.5 Flash Lite per
   SPEC.md. Fake implementations are unchanged.
 """
 
@@ -249,14 +249,14 @@ class _GeminiMessagesAdapter:
 
 class RealSignalLLM:
     """
-    Gemini 2.0 Flash wrapper for the emotional-signal-reader text path.
+    Gemini 2.5 Flash Lite wrapper for the emotional-signal-reader text path.
 
     Exposes an Anthropic-compatible .messages.create() interface via
     _GeminiMessagesAdapter so reader.py works without modification.
     Requires:  pip install google-genai   +   GOOGLE_API_KEY env var.
     """
 
-    def __init__(self, api_key: str | None = None, model: str = "gemini-2.0-flash"):
+    def __init__(self, api_key: str | None = None, model: str = "gemini-2.5-flash-lite"):
         try:
             from google import genai  # noqa: PLC0415
         except ImportError as exc:
@@ -389,13 +389,13 @@ def _extract_section(brief: str, section_name: str) -> str:
 
 class RealOrchestratorLLM:
     """
-    Gemini 2.0 Flash wrapper for orchestrator LLM calls.
+    Gemini 2.5 Flash Lite wrapper for orchestrator LLM calls.
 
     Implements generate_recommended_action() and judge_brief() using the
     google-genai SDK. Requires:  pip install google-genai  +  GOOGLE_API_KEY.
     """
 
-    def __init__(self, api_key: str | None = None, model: str = "gemini-2.0-flash"):
+    def __init__(self, api_key: str | None = None, model: str = "gemini-2.5-flash-lite"):
         try:
             from google import genai  # noqa: PLC0415
         except ImportError as exc:
@@ -429,9 +429,12 @@ class RealOrchestratorLLM:
             "  pii_free_output (0.20): zero real student names? (binary: 0 or 2)\n"
             "  counselor_action_clarity (0.15): recommended actions specific and actionable?\n"
             "  false_positive_rate (0.10): routine students absent from urgent/elevated?\n\n"
+            "Compute weighted_score as a float in [0.0, 1.0]: "
+            "sum((score / 2.0) * weight) for each criterion using the weights above.\n"
             "Return ONLY valid JSON with keys: signal_coverage, escalation_accuracy, "
             "pii_free_output, counselor_action_clarity, false_positive_rate, "
-            "weighted_score, pass (bool), failure_reason (null or string)."
+            "weighted_score (float 0.0–1.0), pass (bool, true if weighted_score >= 0.75), "
+            "failure_reason (null or string)."
         )
         response = self._client.models.generate_content(
             model=self._model, contents=prompt

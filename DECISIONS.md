@@ -23,7 +23,7 @@ Both seams are wrapped by thin interfaces in `agents/llm_interface.py`:
 - `FakeOrchestratorLLM` — deterministic stub for `generate_recommended_action()` (rule-based
   text) and `judge_brief()` (rubric check against student IDs and PII in brief text).
 
-- `RealSignalLLM` / `RealOrchestratorLLM` — Gemini 2.0 Flash wrappers via the
+- `RealSignalLLM` / `RealOrchestratorLLM` — Gemini 2.5 Flash Lite wrappers via the
   `google-genai` SDK. Used only in demo/Kaggle notebook runs when `GOOGLE_API_KEY`
   is set. `RealSignalLLM` adapts the Gemini SDK to the Anthropic `messages.create()`
   interface that `reader.py` expects, so no Phase 4 code changes are needed.
@@ -38,13 +38,15 @@ Both seams are wrapped by thin interfaces in `agents/llm_interface.py`:
 ### LLM model correction: Phase 4 Anthropic → Phase 5 Gemini (noted at Phase 5 integration)
 
 Phase 4 prototyped `reader.py` (the emotional-signal-reader skill) against
-`claude-haiku-4-5-20251001` (Anthropic). SPEC.md specifies Gemini 2.0 Flash for
+`claude-haiku-4-5-20251001` (Anthropic). SPEC.md specified Gemini 2.0 Flash for
 all LLM calls in the final system.
 
-Phase 5 fully migrates to Gemini 2.0 Flash: `RealSignalLLM` and `RealOrchestratorLLM`
+Phase 5 fully migrates to Gemini: `RealSignalLLM` and `RealOrchestratorLLM`
 wrap the `google-genai` SDK, and `reader.py`'s own fallback (no injected client) now
 calls `genai.Client` directly. `test_esr_text_withdrawal_002` is gated on
 `GOOGLE_API_KEY` and skipped in CI when the key is absent.
+
+See also: **Model migration — Gemini 2.0 Flash → 2.5 Flash Lite** below.
 
 ### Platform: Vertex AI Agent Engine → Google AI Studio
 
@@ -54,8 +56,20 @@ authentication instead.
 
 **Reason:** Google AI Studio is freely accessible to all Kaggle competition participants
 without a GCP project, billing account, or IAM setup — in line with competition §6.b
-(equal accessibility requirement). The underlying model (`gemini-2.0-flash`) and all
-LLM behaviour are unchanged.
+(equal accessibility requirement). The underlying model and all LLM behaviour are unchanged.
+
+### Model migration: Gemini 2.0 Flash → 2.5 Flash Lite (June 2026)
+
+**Gemini 2.0 Flash was deprecated by Google on June 1, 2026.**
+
+All references updated to `gemini-2.5-flash-lite` across:
+- `agents/llm_interface.py` — `RealSignalLLM` and `RealOrchestratorLLM` default model param
+- `skills/emotional-signal-reader/reader.py` — direct `generate_content()` call in fallback path
+- `SPEC.md §8` — Tooling & Library Stack yaml
+- `notebook/schoolpulse_demo.ipynb` — setup cell print statement
+
+The model swap is a drop-in replacement: same `google-genai` SDK, same `generate_content()`
+call signature, same `GOOGLE_API_KEY` auth. No logic changes required.
 
 ### Arc-label vs. algorithm discrepancy (noted at Phase 5 integration run)
 

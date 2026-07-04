@@ -317,8 +317,8 @@ runtime:
   agent_framework: Google ADK (Agent Development Kit)
 
 llm:
-  model: gemini-2.0-flash          # default for all agents
-  judge_model: gemini-2.0-flash    # LLM-as-judge layer
+  model: gemini-2.5-flash-lite          # default for all agents (migrated from gemini-2.0-flash, deprecated 2026-06-01)
+  judge_model: gemini-2.5-flash-lite    # LLM-as-judge layer
 
 mcp:
   server: Google Sheets MCP        # teacher observation ingestion

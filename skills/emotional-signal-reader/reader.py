@@ -173,13 +173,13 @@ Rules:
             from google import genai  # noqa: PLC0415
             _gemini = genai.Client(api_key=os.environ.get("GOOGLE_API_KEY"))
             raw = _gemini.models.generate_content(
-                model="gemini-2.0-flash", contents=prompt
+                model="gemini-2.5-flash-lite", contents=prompt
             ).text.strip()
         else:
             # Injected client (FakeSignalLLM in tests, RealSignalLLM in demo)
             # exposes an Anthropic-shaped .messages.create() interface.
             raw = client.messages.create(
-                model="gemini-2.0-flash",
+                model="gemini-2.5-flash-lite",
                 max_tokens=256,
                 messages=[{"role": "user", "content": prompt}],
             ).content[0].text.strip()
