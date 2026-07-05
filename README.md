@@ -187,6 +187,7 @@ Set `GOOGLE_API_KEY` in your environment before running. The `Fake*` stubs are t
 | LLM-as-Judge Evaluation | 5-criterion rubric (PII-free, student-specific, actionable, severity-matched, counselor-appropriate) evaluated on every Daily Brief; pass threshold 0.75 |
 | Context Hygiene / Security | Privacy Guard: student names replaced with IDs before any LLM context window sees them, NER-based redaction on teacher notes, 7-day rolling context window cap, hard cross-student boundary enforcement with `BOUNDARY_VIOLATION` logging |
 | Human-in-the-Loop (HITL) | Orchestrator halts before any high-stakes action — no referral written without `APPROVE_AND_LOG`; every `OVERRIDE_NO_ACTION` written to audit trail; execution trajectory logged to `logs/api_calls.log` |
+| Deployability | `Dockerfile` + `app.py` (FastAPI, Cloud Run–compatible): `POST /run` calls the ADK Workflow pipeline; `GET /health` for liveness; `docker build -t schoolpulse . && docker run -p 8080:8080 schoolpulse` |
 
 ---
 
@@ -199,6 +200,31 @@ Set `GOOGLE_API_KEY` in your environment before running. The `Fake*` stubs are t
 | `routine` | 14 | Stable or improving signals throughout |
 | `elevated` | 4 | Declining trend or 1–2 consecutive low days |
 | `urgent` | 2 | Pattern break or 3+ consecutive low days |
+
+---
+
+## Deployment
+
+A `Dockerfile` and `app.py` (FastAPI) are included so the pipeline can run on Cloud Run or any container platform.
+
+```bash
+# Local dev
+pip install fastapi uvicorn
+uvicorn app:app --reload
+
+# Docker
+docker build -t schoolpulse .
+docker run -p 8080:8080 schoolpulse
+
+# Cloud Run (one-shot deploy)
+gcloud run deploy schoolpulse \
+  --source . \
+  --region us-central1 \
+  --set-env-vars GOOGLE_API_KEY=$GOOGLE_API_KEY \
+  --allow-unauthenticated
+```
+
+Endpoints: `GET /health`, `POST /run` (body: `{"date": "2026-06-28"}`). Add `?real_llm=1` to use live Gemini instead of `Fake*` stubs.
 
 ---
 
