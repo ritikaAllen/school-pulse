@@ -127,6 +127,44 @@ hitting the 15 RPM free-tier limit and producing 429 RESOURCE_EXHAUSTED errors o
 **Result:** ~24 API calls for a full 7-day run (from ~90), well within 15 RPM and
 500 RPD free-tier limits.
 
+### ADK Workflow graph wrapping the pipeline (July 2026)
+
+**Decision: Wrap the full pipeline as a Google ADK 2.x `Workflow` graph in `adk_workflow.py`.**
+
+The orchestrator already coordinates the pipeline correctly as pure Python. ADK wrapping adds an explicit, inspectable graph structure on top of it:
+
+- **`FunctionNode`** — used for the three deterministic phases (Privacy Guard, Signal Detector, Memory Keeper). Zero-arg closures capture the per-day context and run each phase as a graph node.
+- **`LlmAgent`** — used for the HITL gate node (`schoolpulse_hitl`), signalling that this step involves an LLM-backed decision boundary.
+- **`Edge` + `START`** — wires the nodes in sequence: `START → pg_node → sm_node → bj_node → hitl_node`.
+
+**Rationale:** The competition whitepaper requires demonstrating ADK integration. Wrapping at this layer avoids modifying any existing agent logic — `adk_workflow.py` is an alternative entry point that calls the same orchestrator internally, so tests and the notebook demo can continue using the direct path.
+
+**Consequences:**
+- `run_one_day_via_adk()` provides a second callable entry point (used by `app.py` Cloud Run endpoint)
+- `build_workflow()` makes the graph structure inspectable and printable for demo purposes
+- All integration tests (T1–T6) continue to exercise the direct orchestrator path — no duplication needed
+
+---
+
+### MCP layer: local stdio server + production Google Sheets path (July 2026)
+
+**Decision: Implement `mcp_server.py` (FastMCP, stdio transport) for the demo and wire `mcp_config.json` to point to `@modelcontextprotocol/server-gdrive` for the production path.**
+
+The competition whitepaper's MCP section establishes a **consumption-over-creation** principle: projects should consume existing MCP servers rather than building bespoke wrappers. SchoolPulse applies this in two layers:
+
+1. **Demo path** (`schoolpulse-local` entry in `mcp_config.json`): `mcp_server.py` exposes the four synthetic JSON fixtures as MCP tools with identical signatures to the production path (`get_daily_checkins`, `get_teacher_observations`, `get_student_registry`, `list_available_dates`). This lets the notebook demonstrate the MCP protocol boundary without a live Google Sheets connection.
+
+2. **Production path** (`google-sheets-mcp` entry in `mcp_config.json`): the official `@modelcontextprotocol/server-gdrive` MCP server replaces `mcp_server.py`. No code change is needed — same four tool names, same input/output shapes, same pipeline entry point.
+
+**Rationale:** Privacy Guard runs immediately after MCP ingestion — student names and contact details are stripped before any data enters an LLM context window. Routing data through the MCP boundary first makes this trust boundary explicit: the pipeline never touches raw Google Sheets data directly.
+
+**Consequences:**
+- `mcp_config.json` can be dropped into `~/.gemini/config/` to wire either path into Gemini CLI / Antigravity with no code changes
+- `mcp_server.py` uses `__file__`-relative paths so it runs correctly regardless of working directory (fixed during integration after a FileNotFoundError when invoked from the notebook directory)
+- The four MCP tool signatures are stable — swapping demo ↔ production is a config change only
+
+---
+
 ### HITL OVERRIDE scenario uses deterministic stubs (July 2026)
 
 Cell 10 (Scenario B: OVERRIDE_NO_ACTION) originally used the same real LLM clients
