@@ -160,12 +160,13 @@ Set `GOOGLE_API_KEY` in your environment before running. The `Fake*` stubs are t
 
 | Concept | Where in this project |
 |---|---|
-| Multi-Agent Systems | Three cooperating sub-agents coordinated by Orchestrator |
+| Multi-Agent Systems | Four cooperating agents (Privacy Guard, Signal Detector, Memory Keeper, Orchestrator) with explicit trust boundaries and a shared pipeline contract |
+| Agent Skills (Antigravity) | Three Antigravity-format skills in `skills/`: `emotional-signal-reader`, `student-trend-tracker`, `pii-context-sanitizer` — each with a `SKILL.md` (name, description, step-by-step workflow, anti-patterns, eval cases) and a `references/` folder for lookup assets |
 | MCP (Model Context Protocol) | MCP layer architected for Google Sheets ingestion; demo uses local JSON fixtures from `data/synthetic/` — no live Sheets connection required |
 | Long-Term Memory | Memory Keeper: 7-day rolling per-student window with baseline tracking |
 | LLM-as-Judge Evaluation | 5-criterion rubric evaluated on every Daily Brief; pass threshold 0.75 |
-| Context Hygiene | Privacy Guard: PII masking, 7-day context window, cross-student boundary enforcement |
-| Human-in-the-Loop (HITL) | Orchestrator halts for counselor sign-off; no referral written without APPROVE_AND_LOG |
+| Context Hygiene / Security | Privacy Guard: student names replaced with IDs before any LLM call, NER-based redaction, 7-day context window cap, hard cross-student boundary enforcement |
+| Human-in-the-Loop (HITL) | Orchestrator halts for counselor sign-off; no referral written without `APPROVE_AND_LOG`; every `OVERRIDE_NO_ACTION` written to audit trail |
 
 ---
 
