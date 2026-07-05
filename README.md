@@ -219,6 +219,9 @@ GOOGLE_API_KEY=<your-key> pytest tests/test_signal_detector.py -v
 
 ### Demo run — direct orchestrator (full pipeline with real LLM)
 
+`run_sequential_days()` is a convenience wrapper that calls `run_batch()` for each date in sequence —
+the same pipeline the notebook runs in Cell 5, without the per-day formatted output.
+
 ```python
 from pathlib import Path
 from agents.orchestrator import SchoolPulseOrchestrator, load_data, DEMO_DATES
