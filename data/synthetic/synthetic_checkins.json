@@ -272,7 +272,7 @@
     "date": "2026-06-22",
     "senior_input": {
       "prompt": "How are you feeling today and why?",
-      "response": "Tired. Just kind of going through the motions."
+      "response": "A bit flat today. Nothing major, just kind of low energy."
     }
   },
   {
@@ -282,7 +282,7 @@
     "date": "2026-06-23",
     "senior_input": {
       "prompt": "How are you feeling today and why?",
-      "response": "Okay I guess. Hard to get motivated to do anything."
+      "response": "Not the greatest but getting through it. Feeling a bit tired."
     }
   },
   {
@@ -292,7 +292,7 @@
     "date": "2026-06-24",
     "senior_input": {
       "prompt": "How are you feeling today and why?",
-      "response": "A bit better today but still pretty low on energy."
+      "response": "Okay, nothing special. Kind of a quiet day."
     }
   },
   {
@@ -302,7 +302,7 @@
     "date": "2026-06-25",
     "senior_input": {
       "prompt": "How are you feeling today and why?",
-      "response": "Don't really feel like talking to people. Just keeping to myself."
+      "response": "Same as usual. Not bad, not great."
     }
   },
   {
@@ -312,7 +312,7 @@
     "date": "2026-06-26",
     "senior_input": {
       "prompt": "How are you feeling today and why?",
-      "response": "Still really tired. Didn't sleep well again."
+      "response": "A little tired but managing fine."
     }
   },
   {
@@ -322,7 +322,7 @@
     "date": "2026-06-27",
     "senior_input": {
       "prompt": "How are you feeling today and why?",
-      "response": "Feeling a bit better than yesterday but still not great."
+      "response": "Feeling pretty sad today. Not sure why, just really down."
     }
   },
   {
@@ -332,7 +332,7 @@
     "date": "2026-06-28",
     "senior_input": {
       "prompt": "How are you feeling today and why?",
-      "response": "I've been spending a lot of time alone. Just easier that way."
+      "response": "Still feeling low. Hard to get motivated and things feel heavy."
     }
   },
   {
@@ -670,7 +670,7 @@
     "age_group": "junior",
     "date": "2026-06-22",
     "junior_input": {
-      "emoji_sequence": "😊😄🌟"
+      "emoji_sequence": "🙂😴"
     }
   },
   {
@@ -679,7 +679,7 @@
     "age_group": "junior",
     "date": "2026-06-23",
     "junior_input": {
-      "emoji_sequence": "😊😄🌟"
+      "emoji_sequence": "😐😴"
     }
   },
   {
@@ -688,7 +688,7 @@
     "age_group": "junior",
     "date": "2026-06-24",
     "junior_input": {
-      "emoji_sequence": "🙂🌤️"
+      "emoji_sequence": "😬😐"
     }
   },
   {
@@ -697,7 +697,7 @@
     "age_group": "junior",
     "date": "2026-06-25",
     "junior_input": {
-      "emoji_sequence": "😊😄🌟"
+      "emoji_sequence": "😑😐"
     }
   },
   {
@@ -706,7 +706,7 @@
     "age_group": "junior",
     "date": "2026-06-26",
     "junior_input": {
-      "emoji_sequence": "😃🌟😊"
+      "emoji_sequence": "😴😬"
     }
   },
   {
@@ -715,7 +715,7 @@
     "age_group": "junior",
     "date": "2026-06-27",
     "junior_input": {
-      "emoji_sequence": "😃🌟😊"
+      "emoji_sequence": "😔😴"
     }
   },
   {
@@ -724,7 +724,7 @@
     "age_group": "junior",
     "date": "2026-06-28",
     "junior_input": {
-      "emoji_sequence": "😁🌟🎉"
+      "emoji_sequence": "😔😴"
     }
   },
   {

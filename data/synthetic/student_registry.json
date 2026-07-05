@@ -36,8 +36,8 @@
     "fictional_name": "Priya Nair",
     "age_group": "senior",
     "age": 16,
-    "_arc_label": "elevated_persistent_low_energy",
-    "_arc_note": "Low energy + mild withdrawal; valence borderline but not urgent"
+    "_arc_label": "elevated_late_dip",
+    "_arc_note": "Neutral text Days 1-5 (LLM valence ~-0.1); clearly sad text Days 6-7 (no withdrawal language) → LLM valence ~-0.4 → consecutive_low_days=2 → elevated. No pattern break expected (delta ~0.3<0.4)."
   },
   {
     "student_id": "S_018",
@@ -84,8 +84,8 @@
     "fictional_name": "Carlos Reyes",
     "age_group": "junior",
     "age": 7,
-    "_arc_label": "routine_stable",
-    "_arc_note": "Positive with one neutral day"
+    "_arc_label": "elevated_late_dip",
+    "_arc_note": "Neutral-to-mild Days 1-5 (emoji 🙂/😐/😬/😑/😴); two clearly sad days (😔😴) on Days 6-7 → consecutive_low_days=2 → elevated. No pattern break (5-day baseline=-0.09, Day6 delta=0.31<0.4)."
   },
   {
     "student_id": "S_008",
