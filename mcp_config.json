@@ -1,0 +1,36 @@
+{
+  "_doc": [
+    "SchoolPulse MCP configuration.",
+    "Copy to ~/.gemini/config/mcp_config.json (Gemini CLI / Antigravity)",
+    "or reference from your ADK runner config.",
+    "",
+    "Two entries following the whitepaper consumption-over-creation principle:",
+    "  schoolpulse-local  — stdio demo server backed by synthetic JSON fixtures",
+    "  google-sheets-mcp  — production path: official Google Drive/Sheets MCP server"
+  ],
+  "mcpServers": {
+    "schoolpulse-local": {
+      "_doc": "Demo path — no credentials needed. Run: python mcp_server.py",
+      "command": "python",
+      "args": ["mcp_server.py"],
+      "env": {
+        "DATA_DIR": "data/synthetic"
+      }
+    },
+    "google-sheets-mcp": {
+      "_doc": [
+        "Production path — official @modelcontextprotocol/server-gdrive.",
+        "Install: npm install -g @modelcontextprotocol/server-gdrive",
+        "Auth: create a Google Cloud OAuth2 client and download credentials.json.",
+        "Docs: https://github.com/modelcontextprotocol/servers/tree/main/src/gdrive"
+      ],
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-gdrive"],
+      "env": {
+        "GDRIVE_CLIENT_ID":     "${GDRIVE_CLIENT_ID}",
+        "GDRIVE_CLIENT_SECRET": "${GDRIVE_CLIENT_SECRET}",
+        "GDRIVE_REFRESH_TOKEN": "${GDRIVE_REFRESH_TOKEN}"
+      }
+    }
+  }
+}

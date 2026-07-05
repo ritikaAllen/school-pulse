@@ -79,6 +79,8 @@ school-pulse/
 │   ├── test_memory_keeper.py
 │   └── test_orchestrator.py    # Integration tests T1–T6
 ├── specs/                      # Per-agent specs (HITL, MCP, orchestrator…)
+├── mcp_server.py               # Local stdio MCP server (demo path, FastMCP)
+├── mcp_config.json             # MCP client config (local stdio + Google Sheets MCP)
 ├── SPEC.md                     # Full system specification
 ├── DECISIONS.md                # Architecture decisions and trade-offs
 └── requirements.txt
@@ -128,6 +130,18 @@ orchestrator = SchoolPulseOrchestrator(
 )
 results = orchestrator.run_sequential_days(DEMO_DATES, checkins, teacher_obs, registry)
 ```
+
+### Demo run — MCP server (local stdio)
+
+```bash
+# Start the MCP server (stdio — called automatically by mcp_config.json)
+python mcp_server.py
+
+# Or inspect it visually in MCP Inspector:
+mcp dev mcp_server.py
+```
+
+The server exposes four tools: `get_daily_checkins(date)`, `get_teacher_observations(date)`, `get_student_registry()`, `list_available_dates()`. Copy `mcp_config.json` to `~/.gemini/config/mcp_config.json` to wire it into Gemini CLI / Antigravity.
 
 ### Demo run — ADK Workflow graph
 
@@ -182,7 +196,7 @@ Set `GOOGLE_API_KEY` in your environment before running. The `Fake*` stubs are t
 | Multi-Agent Systems | Four cooperating agents (Privacy Guard, Signal Detector, Memory Keeper, Orchestrator) with explicit trust boundaries and a shared pipeline contract |
 | ADK (Agent Development Kit) | `agents/adk_workflow.py` wraps the full pipeline as a Google ADK 2.x `Workflow` graph — `FunctionNode`s for deterministic phases, an `LlmAgent` HITL node, wired via `Edge` + `START`. `google-adk>=2.0.0` in `requirements.txt` |
 | Agent Skills (Antigravity) | Three Antigravity-format skills in `skills/`: `emotional-signal-reader`, `student-trend-tracker`, `pii-context-sanitizer` — each with a `SKILL.md` (name, description, step-by-step workflow, anti-patterns, eval cases) and a `references/` folder for lookup assets |
-| MCP (Model Context Protocol) | MCP layer architected for Google Sheets ingestion; demo uses local JSON fixtures from `data/synthetic/` — no live Sheets connection required |
+| MCP (Model Context Protocol) | `mcp_server.py` — runnable stdio MCP server (FastMCP) exposing `get_daily_checkins`, `get_teacher_observations`, `get_student_registry`, `list_available_dates` tools backed by `data/synthetic/`. `mcp_config.json` wires both the local stdio server (demo) and the official `@modelcontextprotocol/server-gdrive` (production Google Sheets path). Follows whitepaper's *consumption-over-creation* principle. |
 | Long-Term Memory | Memory Keeper: 7-day rolling per-student window with baseline tracking |
 | LLM-as-Judge Evaluation | 5-criterion rubric (PII-free, student-specific, actionable, severity-matched, counselor-appropriate) evaluated on every Daily Brief; pass threshold 0.75 |
 | Context Hygiene / Security | Privacy Guard: student names replaced with IDs before any LLM context window sees them, NER-based redaction on teacher notes, 7-day rolling context window cap, hard cross-student boundary enforcement with `BOUNDARY_VIOLATION` logging |

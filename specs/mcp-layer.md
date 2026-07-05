@@ -95,21 +95,38 @@ composite_record:
 
 ---
 
-## Kaggle notebook demo mode
-
-In the notebook demo, the MCP layer is simulated using static JSON files:
+## Implementation
 
 ```yaml
-demo_mode:
-  source: data/synthetic_checkins.json + data/teacher_observations.json
-  mcp_simulation: ADK mock MCP tool returning records from JSON files
-  auth: not required
-  note: the MCP interface contract (record schema, join logic) is identical
-        to production; only the transport differs
+implementation:
+  server: mcp_server.py          # FastMCP (mcp>=1.0.0, Python SDK)
+  transport: stdio (demo) / SSE HTTPS (production)
+  config: mcp_config.json        # two entries: schoolpulse-local + google-sheets-mcp
+  tools_exposed:
+    - get_daily_checkins(date)         # -> list[dict] filtered by date
+    - get_teacher_observations(date)   # -> list[dict], teacher_name stripped
+    - get_student_registry()           # -> list[dict], no PII
+    - list_available_dates()           # -> list[str] discovery helper
+  principle: >
+    Follows whitepaper "consumption over creation" — mcp_config.json wires to
+    the official @modelcontextprotocol/server-gdrive for production Google Sheets
+    access rather than a bespoke REST wrapper.
 ```
 
-This allows the full pipeline to run in a Kaggle notebook without live
-Google Sheets access while still demonstrating the MCP concept correctly.
+## Demo mode
+
+The `schoolpulse-local` entry in `mcp_config.json` invokes `mcp_server.py` via
+stdio. It serves `data/synthetic/` JSON files through the same tool interface the
+production Google Sheets server would expose — the record schema and join logic
+are identical; only the transport differs.
+
+```bash
+# Start the server (stdio — mcp_config.json calls this automatically)
+python mcp_server.py
+
+# Visual inspection via MCP Inspector
+mcp dev mcp_server.py
+```
 
 ---
 
