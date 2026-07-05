@@ -26,7 +26,8 @@ from pathlib import Path
 
 from mcp.server.fastmcp import FastMCP
 
-DATA_DIR = Path(os.environ.get("DATA_DIR", "data/synthetic"))
+_HERE = Path(__file__).resolve().parent
+DATA_DIR = Path(os.environ.get("DATA_DIR", str(_HERE / "data" / "synthetic")))
 
 
 def _load(filename: str) -> list:
