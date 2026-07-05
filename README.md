@@ -15,7 +15,7 @@ A multi-agent AI pipeline that gives school counselors a daily synthesized brief
 │                  ORCHESTRATOR AGENT                  │
 │          (coordinates pipeline, owns HITL gate)      │
 └───────────────────────┬──────────────────────────────┘
-                        │  per student, per day
+                        │
           ┌─────────────┼─────────────────┐
           ▼             ▼                 ▼
   ┌──────────────┐ ┌───────────────┐ ┌──────────────┐
@@ -39,12 +39,14 @@ A multi-agent AI pipeline that gives school counselors a daily synthesized brief
                    └───────────────┘  REQUEST_MORE_CONTEXT
 ```
 
-### Pipeline flow (per student, per day)
+### Pipeline flow
 
-1. **Privacy Guard** strips PII before any data enters an LLM context — student names replaced with IDs, contact info redacted, teacher notes NER-cleaned.
-2. **Signal Detector** converts the sanitized check-in into a structured signal: `emotional_valence`, `energy_level`, `social_withdrawal_flag`, `distress_keywords_detected`. Junior students use an emoji-to-affect lookup table; senior students use a Gemini 2.0 Flash text parse.
-3. **Memory Keeper** integrates the signal into a 7-day rolling window, recomputes the baseline, and sets `recommended_priority` (`routine` / `elevated` / `urgent`) based on pattern-break detection and consecutive low-day counts.
-4. **Orchestrator** assembles a PII-free Daily Brief, runs an LLM-as-judge evaluation (5-criterion rubric, pass threshold 0.75), then presents the brief to the counselor via the HITL gate.
+The orchestrator runs in three phases per day, then assembles the brief:
+
+1. **Privacy Guard** (all students) — strips PII before any data enters an LLM context: student names replaced with IDs, contact info redacted, teacher notes NER-cleaned.
+2. **Signal Detector** (one batch LLM call per day) — converts sanitized check-ins into structured signals: `emotional_valence`, `energy_level`, `social_withdrawal_flag`, `distress_keywords_detected`. Junior students use an emoji-to-affect lookup table; senior students' text responses are batched into a single `gemini-3.1-flash-lite` call, then distributed per student.
+3. **Memory Keeper** (per student) — integrates the signal into a 7-day rolling window, recomputes the baseline, and sets `recommended_priority` (`routine` / `elevated` / `urgent`) based on pattern-break detection and consecutive low-day counts.
+4. **Orchestrator** assembles a PII-free Daily Brief (LLM call per urgent student), runs an LLM-as-judge evaluation (5-criterion rubric, pass threshold 0.75), then presents the brief to the counselor via the HITL gate.
 5. **HITL gate** halts the pipeline. No referral is written without `APPROVE_AND_LOG`. Every `OVERRIDE_NO_ACTION` is logged to the audit trail.
 
 ---
@@ -96,14 +98,14 @@ python -m spacy download en_core_web_sm
 
 ### Run the integration tests (no API key required)
 
-All 34 tests use deterministic `Fake*` stubs — no credentials needed.
+33 tests use deterministic `Fake*` stubs — no credentials needed. 1 test exercises the live Gemini text path and is skipped when no key is present.
 
 ```bash
 pytest tests/ -v
 # 33 passed, 1 skipped
 ```
 
-The 1 skipped test (`test_esr_text_withdrawal_002`) exercises the live Gemini text path in `reader.py` directly. It runs when `GOOGLE_API_KEY` is set:
+The skipped test (`test_esr_text_withdrawal_002`) calls `reader.py`'s Gemini path directly. It runs when `GOOGLE_API_KEY` is set:
 
 ```bash
 GOOGLE_API_KEY=<your-key> pytest tests/test_signal_detector.py -v

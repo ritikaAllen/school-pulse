@@ -44,7 +44,7 @@ This system is a **multi-agent AI pipeline** that gives school counselors a dail
 │                     ORCHESTRATOR AGENT                          │
 │              (coordinates pipeline, owns HITL gate)             │
 └───────────────────────┬─────────────────────────────────────────┘
-                        │  per student, per day
+                        │
           ┌─────────────┼──────────────────┐
           ▼             ▼                  ▼
   ┌───────────────┐ ┌──────────────┐ ┌──────────────────┐
@@ -106,7 +106,7 @@ signal:
   social_withdrawal_flag: boolean
   distress_keywords_detected: list[string]
   signal_confidence: float    # 0.0 to 1.0
-  raw_input_type: enum [emoji, text, teacher_note]
+  raw_input_type: enum [emoji, text, teacher_note, merged]  # merged when multiple modalities present
 ```
 
 ---
@@ -291,7 +291,9 @@ dataset:
   distributions:
     routine_students: 14        # stable or improving signals
     elevated_watch: 4           # declining trend, 1–2 low days
-    urgent_watch: 2             # 3+ consecutive low days or pattern break
+    urgent_watch: 2             # design-time arc labels; algorithm produces 5 urgent by Day 7
+                                # (S_009, S_018 arced "elevated" but algorithm correctly escalates
+                                # them via pattern_break — see DECISIONS.md arc-label discrepancy)
   teacher_observations:
     frequency: "2–3 per day across cohort"
     flag_levels: [none, watch, concern]
@@ -314,15 +316,20 @@ runtime:
   platform: Google AI Studio (Gemini API)
   auth: GOOGLE_API_KEY
   language: Python 3.11
-  agent_framework: Google ADK (Agent Development Kit)
+  agent_framework: custom Python orchestrator (no ADK dependency)
+                   # Originally planned with Google ADK; implemented as a plain Python
+                   # class using google-genai SDK directly. ADK added no value for a
+                   # pipeline this tightly controlled — custom code is simpler and
+                   # fully deterministic for testing.
 
 llm:
-  model: gemini-2.5-flash-lite          # default for all agents (migrated from gemini-2.0-flash, deprecated 2026-06-01)
-  judge_model: gemini-2.5-flash-lite    # LLM-as-judge layer
+  model: gemini-3.1-flash-lite          # default for all agents (migrated from gemini-2.0-flash, deprecated 2026-06-01)
+  judge_model: gemini-3.1-flash-lite    # LLM-as-judge layer
 
 mcp:
-  server: Google Sheets MCP        # teacher observation ingestion
-  client: ADK MCP client wrapper
+  server: Google Sheets MCP             # teacher observation ingestion (architected; not live in demo)
+  client: local JSON fixtures           # data/synthetic/ used in place of live Sheets connection
+                                        # MCP layer spec in specs/mcp-layer.md
 
 memory:
   type: in-process dict (demo)     # upgradeable to Firestore for production
@@ -478,7 +485,7 @@ Phase 4 ✓ Sub-agents in isolation (build + test each against their eval cases)
 Phase 5 ✓ Orchestrator + LLM-as-judge + HITL gate; integration tests T1–T6 passing
           Note: MCP layer is architected; demo uses local JSON fixtures (data/synthetic/)
 Phase 6 ✓ Full Gemini migration; google-genai SDK; GOOGLE_API_KEY auth
-Phase 7   Competition writeup / Kaggle notebook
+Phase 7 ✓ Kaggle notebook (schoolpulse_demo.ipynb); API call optimisation; competition writeup
 ```
 
 ---
