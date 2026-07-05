@@ -51,6 +51,83 @@ The orchestrator runs in three phases per day, then assembles the brief:
 
 ---
 
+## How SchoolPulse runs in a real school
+
+> This section is for anyone reading the project for the first time. It explains what a production deployment looks like day-to-day, and how the 7-day demo in the notebook maps to that reality.
+
+### The daily rhythm
+
+Every school day, the pipeline runs **once** — typically in the morning after students have submitted their check-ins. Here is what a single day's run looks like:
+
+```
+8:00 am  Students submit check-ins
+         ↳ Juniors: tap 2 emojis in the school app
+         ↳ Seniors: type a short free-text response
+
+8:30 am  Scheduled pipeline run (Cloud Scheduler / cron)
+         │
+         ├─ 1. Load today's check-ins via MCP (Google Sheets)
+         │
+         ├─ 2. Privacy Guard
+         │      Strip all student names → anonymised IDs
+         │      Redact contact info and teacher names from notes
+         │
+         ├─ 3. Signal Detector
+         │      Juniors : emoji → valence lookup table  (no LLM, instant)
+         │      Seniors : one batched Gemini call for all 10 free-text responses
+         │                → emotional_valence, energy_level, withdrawal_flag
+         │
+         ├─ 4. Memory Keeper  (per student)
+         │      Load previous 6 days from the database
+         │      Append today's signal → 7-day rolling window
+         │      Compute rolling baseline, pattern-break detection
+         │      Set priority: routine / elevated / urgent
+         │
+         ├─ 5. Daily Brief assembly
+         │      Urgent students → one Gemini call each for recommended action
+         │      Elevated students → rule-based watch entry (no LLM)
+         │      LLM-as-judge evaluates the full brief (must score ≥ 0.75)
+         │
+         └─ 6. HITL gate
+                Counselor reviews the brief
+                APPROVE_AND_LOG  → referrals written, timestamped
+                OVERRIDE_NO_ACTION → override logged to audit trail
+                REQUEST_MORE_CONTEXT → Memory Keeper queried, no re-run
+
+8:35 am  Counselor receives the daily brief on their dashboard
+```
+
+### What stays the same every day vs. what's new
+
+| Component | Each day |
+|---|---|
+| Privacy Guard | Runs on that day's new check-ins only |
+| Signal Detector — juniors | Instant lookup, no LLM, no cost |
+| Signal Detector — seniors | **One batch LLM call** for today's 10 new responses |
+| Memory Keeper | Reads persisted history, appends today, saves back |
+| Recommended action | One LLM call per urgent student (zero if no urgency) |
+| LLM-as-judge | One LLM call per day |
+| **Minimum LLM calls/day** | **2** (signal batch + judge, zero urgent students) |
+| **Typical LLM calls/day** | **3–5** (batch + 1–3 urgent actions + judge) |
+
+Old check-in text is **never re-scored**. Once a day's signals are stored in Memory Keeper, they persist as numbers — no raw text is kept in the rolling window.
+
+### How the notebook demo maps to this
+
+The notebook's Cell 5 simulates 7 school days in one sitting by looping through dates. Each iteration of the loop is exactly one real-world daily run. The only difference from production is that the demo's Memory Keeper state lives in a Python dict that disappears when the kernel restarts — a real deployment would persist it to a database (Firestore, Postgres, etc.) so each morning's run can read the previous days automatically.
+
+### LLM cost at school scale
+
+A school with 500 students (250 juniors + 250 seniors):
+- Signal batch: 25 Gemini calls/day (250 seniors ÷ 10 per batch)
+- Urgent actions: typically 2–5 calls/day
+- Judge: 1 call/day
+- **Total: ~28–31 Gemini Flash calls per school day**
+
+At Gemini Flash pricing, this is well under $1/day for a full school.
+
+---
+
 ## Project layout
 
 ```
