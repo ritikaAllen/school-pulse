@@ -60,6 +60,7 @@ school-pulse/
 │   ├── signal_detector.py      # Emotional signal extraction agent
 │   ├── memory_keeper.py        # Rolling trend memory agent
 │   ├── orchestrator.py         # Pipeline coordinator + HITL gate
+│   ├── adk_workflow.py         # ADK 2.x Workflow graph wrapping the pipeline
 │   └── llm_interface.py        # LLM seam abstraction (Fake* / Real*)
 ├── skills/
 │   ├── emotional-signal-reader/
@@ -111,7 +112,7 @@ The skipped test (`test_esr_text_withdrawal_002`) calls `reader.py`'s Gemini pat
 GOOGLE_API_KEY=<your-key> pytest tests/test_signal_detector.py -v
 ```
 
-### Demo run (full pipeline with real LLM)
+### Demo run — direct orchestrator (full pipeline with real LLM)
 
 ```python
 from pathlib import Path
@@ -126,6 +127,24 @@ orchestrator = SchoolPulseOrchestrator(
     hitl_callback=None,                   # interactive CLI prompt
 )
 results = orchestrator.run_sequential_days(DEMO_DATES, checkins, teacher_obs, registry)
+```
+
+### Demo run — ADK Workflow graph
+
+```python
+from agents.adk_workflow import build_workflow, run_one_day_via_adk
+
+# Fake LLMs (no API key needed)
+ctx = run_one_day_via_adk(checkins, teacher_obs, registry, date="2026-06-28")
+print(ctx.daily_brief)
+print(ctx.judge_scorecard)
+
+# Real LLM (requires GOOGLE_API_KEY)
+ctx = run_one_day_via_adk(checkins, teacher_obs, registry,
+                          date="2026-06-28", use_real_llm=True)
+
+# Inspect the ADK graph structure
+wf = build_workflow(ctx)   # Workflow with 4 edges: START→PG→SM→BJ→HITL
 ```
 
 Set `GOOGLE_API_KEY` in your environment before running. The `Fake*` stubs are the default when no LLM is passed — useful for notebooks and offline development.
@@ -161,6 +180,7 @@ Set `GOOGLE_API_KEY` in your environment before running. The `Fake*` stubs are t
 | Concept | Where in this project |
 |---|---|
 | Multi-Agent Systems | Four cooperating agents (Privacy Guard, Signal Detector, Memory Keeper, Orchestrator) with explicit trust boundaries and a shared pipeline contract |
+| ADK (Agent Development Kit) | `agents/adk_workflow.py` wraps the full pipeline as a Google ADK 2.x `Workflow` graph — `FunctionNode`s for deterministic phases, an `LlmAgent` HITL node, wired via `Edge` + `START`. `google-adk>=2.0.0` in `requirements.txt` |
 | Agent Skills (Antigravity) | Three Antigravity-format skills in `skills/`: `emotional-signal-reader`, `student-trend-tracker`, `pii-context-sanitizer` — each with a `SKILL.md` (name, description, step-by-step workflow, anti-patterns, eval cases) and a `references/` folder for lookup assets |
 | MCP (Model Context Protocol) | MCP layer architected for Google Sheets ingestion; demo uses local JSON fixtures from `data/synthetic/` — no live Sheets connection required |
 | Long-Term Memory | Memory Keeper: 7-day rolling per-student window with baseline tracking |
