@@ -149,6 +149,12 @@ activemq-data/
 # SageMath parsed files
 *.sage.py
 
+# API call logs
+logs/
+
+# Local reference docs (whitepapers, PDFs — not committed to repo)
+local-docs/
+
 # Environments
 .env
 .envrc

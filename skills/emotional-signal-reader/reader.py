@@ -173,13 +173,13 @@ Rules:
             from google import genai  # noqa: PLC0415
             _gemini = genai.Client(api_key=os.environ.get("GOOGLE_API_KEY"))
             raw = _gemini.models.generate_content(
-                model="gemini-2.5-flash-lite", contents=prompt
+                model="gemini-3.1-flash-lite", contents=prompt
             ).text.strip()
         else:
             # Injected client (FakeSignalLLM in tests, RealSignalLLM in demo)
             # exposes an Anthropic-shaped .messages.create() interface.
             raw = client.messages.create(
-                model="gemini-2.5-flash-lite",
+                model="gemini-3.1-flash-lite",
                 max_tokens=256,
                 messages=[{"role": "user", "content": prompt}],
             ).content[0].text.strip()
@@ -320,14 +320,16 @@ def _empty_signal(student_id: str, date: str, raw_type: str) -> dict:
     }
 
 
-def read_signal(record: dict, llm_client=None) -> dict:
+def read_signal(record: dict, llm_client=None, text_signal_cache: dict | None = None) -> dict:
     """
     Main entry point. Convert a sanitised check-in record into a signal object.
 
     Args:
-        record:     Sanitised check-in record (must have sanitisation_manifest
-                    with boundary_checks_passed=True — enforced by the agent).
-        llm_client: Optional pre-built Anthropic client (for testing/injection).
+        record:            Sanitised check-in record (must have sanitisation_manifest
+                           with boundary_checks_passed=True — enforced by the agent).
+        llm_client:        Optional LLM client (for testing/injection).
+        text_signal_cache: Optional {student_id: signal_dict} from batch prefetch.
+                           If present, the senior text LLM call is skipped.
 
     Returns:
         signal dict conforming to the emotional-signal-reader output schema.
@@ -348,9 +350,12 @@ def read_signal(record: dict, llm_client=None) -> dict:
     # ── B. Text path (senior) ─────────────────────────────────────────────────
     si = record.get("senior_input")
     if si and si.get("response"):
-        signals_to_merge.append(
-            _parse_text_signal(student_id, date, si["response"], client=llm_client)
-        )
+        if text_signal_cache and student_id in text_signal_cache:
+            signals_to_merge.append(text_signal_cache[student_id])
+        else:
+            signals_to_merge.append(
+                _parse_text_signal(student_id, date, si["response"], client=llm_client)
+            )
 
     # ── C. Teacher note path (any age) ───────────────────────────────────────
     to = record.get("teacher_observation")

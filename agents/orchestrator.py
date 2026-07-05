@@ -108,20 +108,30 @@ class SchoolPulseOrchestrator:
             "referral_log": [],
             "audit_log": [],
         }
+        self._action_cache: dict = {}  # student_id -> recommended_action; avoids duplicate LLM calls
+        self._signal_cache: dict = {}  # student_id -> signal_dict; populated by batch prefetch
 
-        # Build name → obs lookup for this date
+        # Build student_id → obs lookup for this date
         day_obs = {
             o["student_id"]: o
             for o in teacher_observations
             if o.get("date") == run_date
         }
 
-        # ── Per-student pipeline (steps 1–5) ──────────────────────────────────
+        # ── Phase 1: Privacy Guard (all students) ─────────────────────────────
+        sanitised_records: list[dict] = []
         for checkin in checkins:
-            student_id = checkin.get("student_id", "")
-            self._process_student(
-                checkin, day_obs.get(student_id), student_registry
-            )
+            sid = checkin.get("student_id", "")
+            sanitised = self._sanitise_checkin(checkin, day_obs.get(sid), student_registry)
+            if sanitised is not None:
+                sanitised_records.append(sanitised)
+
+        # ── Phase 2: Batch LLM call — senior text signals (1 call vs N) ───────
+        self._signal_cache = self._batch_prefetch_signals(sanitised_records)
+
+        # ── Phase 3: Signal Detector + Memory Keeper (per student) ────────────
+        for sanitised in sanitised_records:
+            self._detect_and_track(sanitised)
 
         # ── Step 6: Assemble Daily Brief ──────────────────────────────────────
         known_names = [
@@ -188,25 +198,22 @@ class SchoolPulseOrchestrator:
         lines.append(f"  trend_direction: {mem.get('trend_direction', 'stable')}")
         return "\n".join(lines)
 
-    # ── Private: per-student pipeline ─────────────────────────────────────────
+    # ── Private: pipeline phases ───────────────────────────────────────────────
 
-    def _process_student(
+    def _sanitise_checkin(
         self,
         raw_checkin: dict,
         teacher_obs: Optional[dict],
         student_registry: list[dict],
-    ) -> None:
+    ) -> Optional[dict]:
+        """Phase 1: run Privacy Guard. Returns sanitised record or None (skipped)."""
         student_id = raw_checkin.get("student_id", "unknown")
-
-        # Merge teacher observation into record (orchestrator responsibility)
         record = dict(raw_checkin)
         if teacher_obs:
             record["teacher_observation"] = {
                 "note": teacher_obs.get("note", ""),
                 "flag_level": teacher_obs.get("flag_level", "none"),
             }
-
-        # Step 2: Privacy Guard
         pg_result = privacy_guard.process(record, student_registry)
         if pg_result["status"] != "ok":
             self.session_state["skipped_students"].append({
@@ -214,22 +221,46 @@ class SchoolPulseOrchestrator:
                 "reason": pg_result.get("error_type", "unknown"),
                 "message": pg_result.get("message", ""),
             })
-            return
-
+            return None
         sanitised = pg_result["record"]
-
-        # Seam check: boundary_checks_passed must be true before Signal Detector
-        manifest = sanitised.get("sanitisation_manifest", {})
-        if not manifest.get("boundary_checks_passed", False):
+        if not sanitised.get("sanitisation_manifest", {}).get("boundary_checks_passed", False):
             self.session_state["skipped_students"].append({
                 "student_id": student_id,
                 "reason": "boundary_violation",
                 "message": "boundary_checks_passed=False from Privacy Guard",
             })
-            return
+            return None
+        return sanitised
 
-        # Step 3: Signal Detector
-        sd_result = signal_detector.process(sanitised, llm_client=self._signal_llm)
+    def _batch_prefetch_signals(self, sanitised_records: list[dict]) -> dict:
+        """
+        Phase 2: one LLM call for all senior text responses.
+        Returns {student_id: signal_dict}. Empty dict if batch not supported (Fake path).
+        """
+        if not hasattr(self._signal_llm, "batch_parse"):
+            return {}
+        senior_records = [
+            {
+                "student_id": r.get("student_id"),
+                "date": r.get("date"),
+                "response": (r.get("senior_input") or {}).get("response", ""),
+            }
+            for r in sanitised_records
+            if (r.get("senior_input") or {}).get("response")
+        ]
+        if not senior_records:
+            return {}
+        return self._signal_llm.batch_parse(senior_records)
+
+    def _detect_and_track(self, sanitised: dict) -> None:
+        """Phase 3: Signal Detector + Memory Keeper for one already-sanitised record."""
+        student_id = sanitised.get("student_id", "unknown")
+
+        sd_result = signal_detector.process(
+            sanitised,
+            llm_client=self._signal_llm,
+            text_signal_cache=self._signal_cache,
+        )
         if sd_result["status"] != "ok":
             self.session_state["skipped_students"].append({
                 "student_id": student_id,
@@ -240,7 +271,6 @@ class SchoolPulseOrchestrator:
 
         signal = sd_result["signal"]
 
-        # Step 4: Memory Keeper
         mk_result = memory_keeper.process(
             signal,
             memory_store=self.memory_store,
@@ -254,10 +284,8 @@ class SchoolPulseOrchestrator:
             })
             return
 
-        # Step 5: Update session state
         self.memory_store = mk_result["memory_store"]
-        trend_report = mk_result["report"]
-        self.session_state["trend_reports"].append(trend_report)
+        self.session_state["trend_reports"].append(mk_result["report"])
         self.session_state["processed_students"].append(student_id)
 
     # ── Private: Daily Brief assembly ─────────────────────────────────────────
@@ -282,6 +310,7 @@ class SchoolPulseOrchestrator:
                 action = self._orchestrator_llm.generate_recommended_action(
                     r["student_id"], r
                 )
+                self._action_cache[r["student_id"]] = action
                 detail = []
                 if r.get("pattern_break_detected"):
                     detail.append("Pattern break detected.")
@@ -300,6 +329,8 @@ class SchoolPulseOrchestrator:
         lines.append(f"ELEVATED WATCH ({len(elevated)} student(s)):")
         if elevated:
             for r in elevated:
+                action = self._elevated_action(r)
+                self._action_cache[r["student_id"]] = action  # reused in _write_referrals
                 delta = r.get("delta_from_baseline", 0.0)
                 lines.append(
                     f"  • {r['student_id']} — "
@@ -330,6 +361,16 @@ class SchoolPulseOrchestrator:
                     )
 
         return brief
+
+    def _elevated_action(self, report: dict) -> str:
+        """Rule-based referral text for elevated students — no LLM call required."""
+        n = report.get("consecutive_low_days", 0)
+        delta = abs(report.get("delta_from_baseline", 0.0))
+        if n >= 3:
+            return f"Schedule a well-being check-in this week. {n} consecutive low-mood days observed."
+        if delta >= 0.3:
+            return f"Monitor closely. Dip of {delta:.2f} from baseline detected. Consider an informal check-in."
+        return "Continue monitoring. Follow up if trend persists or worsens."
 
     # ── Private: LLM-as-judge ─────────────────────────────────────────────────
 
@@ -396,8 +437,9 @@ class SchoolPulseOrchestrator:
                     "student_id": r["student_id"],
                     "date": self.session_state["run_date"],
                     "priority": r["recommended_priority"],
-                    "recommended_action": self._orchestrator_llm.generate_recommended_action(
-                        r["student_id"], r
+                    "recommended_action": (
+                        self._action_cache.get(r["student_id"])
+                        or self._orchestrator_llm.generate_recommended_action(r["student_id"], r)
                     ),
                     "counselor_approved_at": approved_at,
                 }

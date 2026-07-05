@@ -31,13 +31,15 @@ _reader = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_reader)
 
 
-def process(sanitised_record: dict, llm_client=None) -> dict:
+def process(sanitised_record: dict, llm_client=None, text_signal_cache: dict | None = None) -> dict:
     """
     Convert a sanitised check-in record into a signal object.
 
     Args:
-        sanitised_record: Must include sanitisation_manifest.boundary_checks_passed=True.
-        llm_client:       Optional Anthropic client (injected for testing).
+        sanitised_record:  Must include sanitisation_manifest.boundary_checks_passed=True.
+        llm_client:        Optional LLM client (injected for testing/demo).
+        text_signal_cache: Optional {student_id: signal_dict} from batch prefetch.
+                           If present, skips the per-student LLM call for senior text path.
     """
     # ── Precondition check ────────────────────────────────────────────────────
     manifest = sanitised_record.get("sanitisation_manifest")
@@ -67,7 +69,7 @@ def process(sanitised_record: dict, llm_client=None) -> dict:
 
     # ── Delegate to skill ─────────────────────────────────────────────────────
     try:
-        signal = _reader.read_signal(sanitised_record, llm_client=llm_client)
+        signal = _reader.read_signal(sanitised_record, llm_client=llm_client, text_signal_cache=text_signal_cache)
     except Exception as exc:
         return {
             "status": "error",

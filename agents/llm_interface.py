@@ -16,9 +16,13 @@ RealSignalLLM / RealOrchestratorLLM — Gemini 2.5 Flash Lite wrappers for demo 
   SPEC.md. Fake implementations are unchanged.
 """
 
+import datetime
 import json
+import logging
 import os
 import re
+import time
+from pathlib import Path
 
 
 # ── FakeSignalLLM ─────────────────────────────────────────────────────────────
@@ -218,6 +222,70 @@ class FakeSignalLLM:
     def __init__(self):
         self.messages = _FakeMessagesNamespace()
 
+    def batch_parse(self, records: list[dict]) -> dict:
+        """Deterministic batch parse — calls per-record fixture/heuristic, no API."""
+        result = {}
+        for rec in records:
+            sid = rec["student_id"]
+            response = rec.get("response", "")
+            payload = _SIGNAL_FIXTURES.get(response) or _keyword_analyze(response)
+            words = response.split()
+            wc = len(words)
+            confidence = 0.9 if wc >= 15 else 0.6 if wc >= 5 else 0.3
+            result[sid] = {
+                "student_id": sid,
+                "date": rec.get("date", ""),
+                "emotional_valence": payload["emotional_valence"],
+                "energy_level": payload["energy_level"],
+                "social_withdrawal_flag": payload["social_withdrawal_flag"],
+                "distress_keywords_detected": payload["distress_keywords_detected"],
+                "signal_confidence": min(confidence, 0.95),
+                "raw_input_type": "text",
+            }
+        return result
+
+
+# ── API call logger ───────────────────────────────────────────────────────────
+# Each kernel start creates a timestamped file: api_calls_YYYYMMDD_HHMMSS.log
+# so successive runs are preserved side by side for comparison.
+# propagate=False keeps all output out of the notebook entirely.
+_LOG_DIR = Path(__file__).resolve().parent.parent / "logs"
+_LOG_DIR.mkdir(exist_ok=True)
+_api_logger = logging.getLogger("schoolpulse.api")
+if not _api_logger.handlers:
+    _api_logger.propagate = False
+    # Kaggle: fixed filename so judges see a clean api_calls.log in the output tab.
+    # Local: versioned filename so successive runs are preserved side by side.
+    _on_kaggle = bool(os.environ.get("KAGGLE_KERNEL_RUN_TYPE"))
+    _log_name = "api_calls.log" if _on_kaggle else f"api_calls_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+    _fh = logging.FileHandler(_LOG_DIR / _log_name, encoding="utf-8")
+    _fh.setFormatter(logging.Formatter("%(asctime)s  %(message)s", datefmt="%Y-%m-%dT%H:%M:%S"))
+    _api_logger.addHandler(_fh)
+_api_logger.setLevel(logging.INFO)
+
+
+def _generate_with_retry(client, model: str, contents: str, max_retries: int = 4, caller: str = "", context: str = ""):
+    """Wrap generate_content with automatic retry on 429 RESOURCE_EXHAUSTED."""
+    _api_logger.info("CALL  %-22s  model=%s  chars=%d%s", caller, model, len(contents), f"  {context}" if context else "")
+    for attempt in range(max_retries):
+        try:
+            response = client.models.generate_content(model=model, contents=contents)
+            _api_logger.info("OK    %-22s  attempt=%d", caller, attempt + 1)
+            return response
+        except Exception as exc:
+            msg = str(exc)
+            if "429" in msg or "RESOURCE_EXHAUSTED" in msg:
+                m = re.search(r"retry[^0-9]*(\d+)", msg, re.IGNORECASE)
+                wait = int(m.group(1)) + 2 if m else 30
+                _api_logger.warning("429   %-22s  attempt=%d  wait=%ds", caller, attempt + 1, wait)
+                if attempt < max_retries - 1:
+                    print(f"    [rate limit] waiting {wait}s (retry {attempt + 1}/{max_retries - 1})...")
+                    time.sleep(wait)
+                    continue
+            _api_logger.error("ERR   %-22s  %s", caller, msg[:120])
+            raise
+    raise RuntimeError(f"Rate limit: max retries ({max_retries}) exceeded")
+
 
 class _GeminiContent:
     def __init__(self, text: str):
@@ -241,9 +309,7 @@ class _GeminiMessagesAdapter:
 
     def create(self, model: str, max_tokens: int, messages: list, **kwargs) -> _GeminiMessage:
         prompt = messages[0]["content"] if messages else ""
-        response = self._client.models.generate_content(
-            model=self._model, contents=prompt
-        )
+        response = _generate_with_retry(self._client, self._model, prompt, caller="signal_reader")
         return _GeminiMessage(response.text)
 
 
@@ -256,7 +322,7 @@ class RealSignalLLM:
     Requires:  pip install google-genai   +   GOOGLE_API_KEY env var.
     """
 
-    def __init__(self, api_key: str | None = None, model: str = "gemini-2.5-flash-lite"):
+    def __init__(self, api_key: str | None = None, model: str = "gemini-3.1-flash-lite"):
         try:
             from google import genai  # noqa: PLC0415
         except ImportError as exc:
@@ -264,7 +330,55 @@ class RealSignalLLM:
                 "google-genai package required for RealSignalLLM: pip install google-genai"
             ) from exc
         client = genai.Client(api_key=api_key or os.environ.get("GOOGLE_API_KEY"))
+        self._client = client
+        self._model = model
         self.messages = _GeminiMessagesAdapter(client, model)
+
+    def batch_parse(self, records: list[dict]) -> dict:
+        """
+        One LLM call for all senior text responses.
+        Returns {student_id: signal_dict}.
+        """
+        if not records:
+            return {}
+        entries = [{"student_id": r["student_id"], "response": r.get("response", "")} for r in records]
+        prompt = (
+            "Analyze each student's check-in response for emotional signals.\n\n"
+            f"Students: {json.dumps(entries)}\n\n"
+            "For each student return a JSON object with:\n"
+            "  emotional_valence: float -1.0 to +1.0 (-1=very distressed, +1=very positive)\n"
+            "  energy_level: float 0.0 to 1.0 (0=exhausted, 1=energised)\n"
+            "  social_withdrawal_flag: bool (true ONLY if isolation language is explicit)\n"
+            "  distress_keywords_detected: list of exact phrases from the text\n\n"
+            "Rules: be conservative; only flag withdrawal if explicitly stated; "
+            "distress_keywords_detected contains literal phrases only.\n\n"
+            "Return ONLY a JSON array where each element has: "
+            "student_id, emotional_valence, energy_level, social_withdrawal_flag, distress_keywords_detected"
+        )
+        ctx = f"count={len(records)}  ids={[r['student_id'] for r in records]}"
+        response = _generate_with_retry(self._client, self._model, prompt, caller="signal_batch", context=ctx)
+        raw = response.text.strip()
+        if raw.startswith("```"):
+            raw = re.sub(r"^```[a-z]*\n?", "", raw)
+            raw = re.sub(r"\n?```$", "", raw)
+        result = {}
+        for item in json.loads(raw):
+            sid = item["student_id"]
+            rec = next((r for r in records if r["student_id"] == sid), {})
+            words = rec.get("response", "").split()
+            wc = len(words)
+            confidence = 0.9 if wc >= 15 else 0.6 if wc >= 5 else 0.3
+            result[sid] = {
+                "student_id": sid,
+                "date": rec.get("date", ""),
+                "emotional_valence": round(max(-1.0, min(1.0, float(item.get("emotional_valence", 0.0)))), 4),
+                "energy_level": round(max(0.0, min(1.0, float(item.get("energy_level", 0.3)))), 4),
+                "social_withdrawal_flag": bool(item.get("social_withdrawal_flag", False)),
+                "distress_keywords_detected": [str(k) for k in item.get("distress_keywords_detected", [])],
+                "signal_confidence": min(confidence, 0.95),
+                "raw_input_type": "text",
+            }
+        return result
 
 
 # ── FakeOrchestratorLLM ───────────────────────────────────────────────────────
@@ -395,7 +509,7 @@ class RealOrchestratorLLM:
     google-genai SDK. Requires:  pip install google-genai  +  GOOGLE_API_KEY.
     """
 
-    def __init__(self, api_key: str | None = None, model: str = "gemini-2.5-flash-lite"):
+    def __init__(self, api_key: str | None = None, model: str = "gemini-3.1-flash-lite"):
         try:
             from google import genai  # noqa: PLC0415
         except ImportError as exc:
@@ -411,9 +525,8 @@ class RealOrchestratorLLM:
             "Write one specific, actionable counselor recommendation (1–2 sentences, "
             "no student name, no PII)."
         )
-        response = self._client.models.generate_content(
-            model=self._model, contents=prompt
-        )
+        ctx = f"student={student_id}  priority={report.get('recommended_priority', '?')}  pattern_break={report.get('pattern_break_detected', False)}"
+        response = _generate_with_retry(self._client, self._model, prompt, caller="recommended_action", context=ctx)
         return response.text.strip()
 
     def judge_brief(self, judge_input: dict) -> dict:
@@ -436,9 +549,8 @@ class RealOrchestratorLLM:
             "weighted_score (float 0.0–1.0), pass (bool, true if weighted_score >= 0.75), "
             "failure_reason (null or string)."
         )
-        response = self._client.models.generate_content(
-            model=self._model, contents=prompt
-        )
+        ctx = f"urgent={judge_input.get('expected_urgent_students', [])}  elevated={judge_input.get('expected_elevated_students', [])}"
+        response = _generate_with_retry(self._client, self._model, prompt, caller="judge_brief", context=ctx)
         raw = response.text.strip()
         if raw.startswith("```"):
             raw = re.sub(r"^```[a-z]*\n?", "", raw)
