@@ -133,29 +133,55 @@ At Gemini Flash pricing, this is well under $1/day for a full school.
 ```
 school-pulse/
 ├── agents/
+│   ├── orchestrator.py         # Pipeline coordinator + HITL gate
 │   ├── privacy_guard.py        # PII sanitization agent
 │   ├── signal_detector.py      # Emotional signal extraction agent
 │   ├── memory_keeper.py        # Rolling trend memory agent
-│   ├── orchestrator.py         # Pipeline coordinator + HITL gate
 │   ├── adk_workflow.py         # ADK 2.x Workflow graph wrapping the pipeline
 │   └── llm_interface.py        # LLM seam abstraction (Fake* / Real*)
-├── skills/
+├── skills/                     # Skill implementations (called by agents)
 │   ├── emotional-signal-reader/
-│   │   └── reader.py           # Emoji lookup + Gemini text parse
+│   │   ├── SKILL.md            # Skill spec: workflow, anti-patterns, eval cases
+│   │   ├── reader.py           # Emoji lookup table + Gemini text parse
+│   │   └── references/
+│   │       └── emoji_affect_table.md
 │   ├── student-trend-tracker/
-│   │   └── tracker.py          # 7-day rolling window + priority rules
+│   │   ├── SKILL.md
+│   │   ├── tracker.py          # 7-day rolling window + priority rules
+│   │   └── references/
+│   │       └── priority_decision_tree.md
 │   └── pii-context-sanitizer/
-│       └── sanitizer.py        # NER + regex PII redaction
+│       ├── SKILL.md
+│       ├── sanitizer.py        # NER + regex PII redaction
+│       └── references/
+│           └── pii_redaction_patterns.md
+├── .agents/                    # Antigravity-format skill registry
+│   ├── AGENTS.md               # Agent roster for Antigravity / Gemini CLI
+│   └── skills/                 # Mirrors skills/ — SKILL.md + references/ only
+│       ├── emotional-signal-reader/
+│       ├── student-trend-tracker/
+│       └── pii-context-sanitizer/
+├── specs/                      # Per-component detailed specs
+│   ├── hitl-gate.md
+│   ├── mcp-layer.md
+│   ├── memory-keeper.md
+│   ├── orchestrator.md
+│   ├── privacy-guard.md
+│   └── signal-detector.md
 ├── data/synthetic/
 │   ├── student_registry.json   # 20 students, ID ↔ age_group mapping
 │   ├── synthetic_checkins.json # 20 students × 7 days of check-ins
 │   └── teacher_observations.json
+├── notebook/
+│   └── schoolpulse_demo.ipynb  # Full demo walkthrough (Kaggle submission)
 ├── tests/
-│   ├── test_privacy_guard.py
-│   ├── test_signal_detector.py
-│   ├── test_memory_keeper.py
-│   └── test_orchestrator.py    # Integration tests T1–T6
-├── specs/                      # Per-agent specs (HITL, MCP, orchestrator…)
+│   ├── test_privacy_guard.py   # 7 tests
+│   ├── test_signal_detector.py # 9 tests
+│   ├── test_memory_keeper.py   # 12 tests
+│   └── test_orchestrator.py    # 6 integration tests (T1–T6)
+├── logs/                       # API call logs (auto-generated, gitignored)
+├── app.py                      # FastAPI server: GET /health, POST /run
+├── Dockerfile                  # Cloud Run–compatible container
 ├── mcp_server.py               # Local stdio MCP server (demo path, FastMCP)
 ├── mcp_config.json             # MCP client config (local stdio + Google Sheets MCP)
 ├── SPEC.md                     # Full system specification
