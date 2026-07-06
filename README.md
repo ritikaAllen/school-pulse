@@ -2,9 +2,11 @@
 
 > Kaggle AI Agents Intensive · Agents for Good Capstone · July 2026
 
-A multi-agent AI pipeline that gives school counselors a daily synthesized brief: which students may need a check-in, what their recent emotional trend looks like, and what the counselor should do next.
+Schools measure what they value. Every student has a grade, an attendance record, a test score. But ask a school to show you their mental wellness data and most will have nothing — not because they don't care, but because no infrastructure exists to collect it.
 
-**The system never replaces a counselor's judgment.** It is a signal amplifier — surfacing patterns that a single human cannot track manually across 300–500 students, then requiring human sign-off before any action is taken.
+SchoolPulse is a first step toward building that infrastructure. A lightweight daily check-in. A 7-day emotional trend per student. A synthesized brief that tells a counselor which students need attention today, and why — backed by data, not guesswork. Over time, this data becomes the foundation for integrating mental wellness programs into schools and measuring whether they work.
+
+**The system never acts on a student autonomously.** Every referral requires explicit counselor sign-off. The agents surface patterns; the human makes the call.
 
 ---
 
