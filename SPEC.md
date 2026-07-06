@@ -1,4 +1,4 @@
-# SPEC.md — Mental Health First Responder Agent
+# SPEC.md — SchoolPulse — Multi-Agent Student Well-Being Signal System
 > **Project:** Kaggle AI Agents Intensive · Agents for Good Capstone  
 > **Track:** Agents for Good  
 > **Competition Deadline:** July 6, 2026  
