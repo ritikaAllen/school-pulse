@@ -239,12 +239,20 @@ results = orchestrator.run_sequential_days(DEMO_DATES, checkins, teacher_obs, re
 
 ### Demo run — MCP server (local stdio)
 
-```bash
-# Inspect all four tools interactively in MCP Inspector (recommended):
-mcp dev mcp_server.py
+The easiest way to see the MCP tools in action is **notebook Cell 4**, which imports
+`mcp_server.py` directly and calls all four tools — no Node.js required.
 
-# The server also runs in raw stdio mode (invoked automatically by an MCP client
-# via mcp_config.json — not useful to run standalone):
+For interactive inspection via MCP Inspector, Node.js ≥ 22.7.5 is required:
+
+```bash
+# Requires Node.js ≥ 22.7.5 (inspector uses @modelcontextprotocol/inspector)
+mcp dev mcp_server.py
+```
+
+The server also runs in raw stdio mode, invoked automatically by an MCP client
+via `mcp_config.json` — not intended to be run standalone:
+
+```bash
 python mcp_server.py
 ```
 
