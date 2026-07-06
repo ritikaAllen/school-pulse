@@ -56,7 +56,9 @@ def get_daily_checkins(date: str) -> list[dict]:
 def get_teacher_observations(date: str) -> list[dict]:
     """
     Return teacher observation records for the given date (YYYY-MM-DD).
-    teacher_name is stripped here — it never leaves the MCP layer, per spec.
+    teacher_name (structured field) is stripped here — it never leaves the MCP layer.
+    Note text may still contain student names; Privacy Guard's NER pass redacts
+    those before any data reaches Signal Detector or an LLM context window.
     """
     records = [o for o in _TEACHER_OBS if o.get("date") == date]
     return [{k: v for k, v in r.items() if k != "teacher_name"} for r in records]
