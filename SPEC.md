@@ -3,7 +3,7 @@
 > **Track:** Agents for Good  
 > **Competition Deadline:** July 6, 2026  
 > **Format:** Hybrid Markdown + YAML (per SkCC best practice, Day 5)  
-> **Status:** Phase 1 — Specification Complete
+> **Status:** All Phases Complete
 
 ---
 
@@ -289,11 +289,13 @@ dataset:
       check_in_type: prompted_text
   days: 7
   distributions:
-    routine_students: 14        # stable or improving signals
-    elevated_watch: 4           # declining trend, 1–2 low days
-    urgent_watch: 2             # design-time arc labels; algorithm produces 5 urgent by Day 7
-                                # (S_009, S_018 arced "elevated" but algorithm correctly escalates
-                                # them via pattern_break — see DECISIONS.md arc-label discrepancy)
+    routine_students: 13        # stable or improving signals (algorithm Day 7 output)
+    elevated_watch: 2           # design-time arc labels: 4; algorithm produces 2 elevated by Day 7
+                                # (S_007, S_012 — baselines low enough that delta stays below 0.4)
+    urgent_watch: 5             # design-time arc labels: 2; algorithm produces 5 urgent by Day 7
+                                # (S_009, S_018 arced "elevated" but escalate via pattern_break;
+                                # S_003 arced "elevated_declining" but escalates via 5 consecutive
+                                # low days with real LLM — see DECISIONS.md arc-label discrepancy)
   teacher_observations:
     frequency: "2–3 per day across cohort"
     flag_levels: [none, watch, concern]
@@ -316,11 +318,11 @@ runtime:
   platform: Google AI Studio (Gemini API)
   auth: GOOGLE_API_KEY
   language: Python 3.11
-  agent_framework: custom Python orchestrator (no ADK dependency)
-                   # Originally planned with Google ADK; implemented as a plain Python
-                   # class using google-genai SDK directly. ADK added no value for a
-                   # pipeline this tightly controlled — custom code is simpler and
-                   # fully deterministic for testing.
+  agent_framework: custom Python orchestrator + Google ADK 2.x Workflow graph
+                   # Core pipeline: SchoolPulseOrchestrator (agents/orchestrator.py)
+                   # ADK integration: agents/adk_workflow.py wraps the pipeline as a
+                   # Workflow graph (FunctionNode for deterministic phases, LlmAgent
+                   # for HITL gate) — used as the production entry point in app.py.
 
 llm:
   model: gemini-3.1-flash-lite          # default for all agents (migrated from gemini-2.0-flash, deprecated 2026-06-01)
@@ -464,7 +466,7 @@ URGENT ACTION REQUIRED (n students):
     Recommend: one-on-one conversation + parent notification consideration.
 
 ELEVATED WATCH (n students):
-  • S_009 — Declining trend over 2 days. Monitor.
+  • S_007 — Trend: stable. Delta from baseline: 0.31. Monitor.
 
 ROUTINE (14 students): No action required today.
 
