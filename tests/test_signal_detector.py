@@ -252,7 +252,7 @@ def test_real_data_privacy_guard_output_roundtrip():
     import agents.privacy_guard as pg
 
     data_path = Path(__file__).resolve().parent.parent / "data" / "synthetic"
-    with open(data_path / "student_registry.json") as f:
+    with open(data_path / "student_registry.json", encoding="utf-8") as f:
         registry = json.load(f)
     with open(data_path / "synthetic_checkins.json", encoding="utf-8") as f:
         checkins = json.load(f)

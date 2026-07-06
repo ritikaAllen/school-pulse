@@ -95,37 +95,19 @@ _SIGNAL_FIXTURES: dict[str, dict] = {
         "social_withdrawal_flag": False, "distress_keywords_detected": [],
     },
 
-    # ── S_012 Priya Nair (elevated_persistent_low_energy) ───────────────────
-    # Arc reaches elevated via "declining AND delta > 0.2" rule on Day 7.
-    "Tired. Just kind of going through the motions.": {
-        "emotional_valence": 0.20, "energy_level": 0.30,
+    # ── S_012 Priya Nair (elevated_late_dip) ────────────────────────────────
+    # Days 1-5: neutral/mild texts — _keyword_analyze covers them (valence ~ -0.10 to -0.25,
+    #   all above LOW_VALENCE_BOUNDARY -0.3 so no consecutive_low accumulates)
+    # Days 6-7: clearly sad texts → explicit fixtures at -0.40 (below -0.3 threshold)
+    #   consecutive_low_days=2 on Day 7 → elevated
+    #   delta from baseline (~-0.12) = 0.28 < PATTERN_BREAK_DELTA 0.4 → no pattern break
+    "Feeling pretty sad today. Not sure why, just really down.": {
+        "emotional_valence": -0.40, "energy_level": 0.25,
         "social_withdrawal_flag": False, "distress_keywords_detected": [],
     },
-    "Okay I guess. Hard to get motivated to do anything.": {
-        "emotional_valence": 0.10, "energy_level": 0.30,
+    "Still feeling low. Hard to get motivated and things feel heavy.": {
+        "emotional_valence": -0.40, "energy_level": 0.25,
         "social_withdrawal_flag": False, "distress_keywords_detected": [],
-    },
-    "A bit better today but still pretty low on energy.": {
-        "emotional_valence": 0.05, "energy_level": 0.30,
-        "social_withdrawal_flag": False, "distress_keywords_detected": [],
-    },
-    "Don't really feel like talking to people. Just keeping to myself.": {
-        "emotional_valence": -0.05, "energy_level": 0.25,
-        "social_withdrawal_flag": True,
-        "distress_keywords_detected": ["keeping to myself"],
-    },
-    "Still really tired. Didn't sleep well again.": {
-        "emotional_valence": -0.15, "energy_level": 0.25,
-        "social_withdrawal_flag": False, "distress_keywords_detected": [],
-    },
-    "Feeling a bit better than yesterday but still not great.": {
-        "emotional_valence": -0.25, "energy_level": 0.25,
-        "social_withdrawal_flag": False, "distress_keywords_detected": [],
-    },
-    "I've been spending a lot of time alone. Just easier that way.": {
-        "emotional_valence": -0.35, "energy_level": 0.20,
-        "social_withdrawal_flag": True,
-        "distress_keywords_detected": ["spending a lot of time alone"],
     },
 }
 
