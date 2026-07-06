@@ -231,14 +231,14 @@ class FakeSignalLLM:
 # Each kernel start creates a timestamped file: api_calls_YYYYMMDD_HHMMSS.log
 # so successive runs are preserved side by side for comparison.
 # propagate=False keeps all output out of the notebook entirely.
-_LOG_DIR = Path(__file__).resolve().parent.parent / "logs"
+_on_kaggle = bool(os.environ.get("KAGGLE_KERNEL_RUN_TYPE"))
+_LOG_DIR = Path("/kaggle/working/logs") if _on_kaggle else Path(__file__).resolve().parent.parent / "logs"
 _LOG_DIR.mkdir(exist_ok=True)
 _api_logger = logging.getLogger("schoolpulse.api")
 if not _api_logger.handlers:
     _api_logger.propagate = False
     # Kaggle: fixed filename so judges see a clean api_calls.log in the output tab.
     # Local: versioned filename so successive runs are preserved side by side.
-    _on_kaggle = bool(os.environ.get("KAGGLE_KERNEL_RUN_TYPE"))
     _log_name = "api_calls.log" if _on_kaggle else f"api_calls_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
     _fh = logging.FileHandler(_LOG_DIR / _log_name, encoding="utf-8")
     _fh.setFormatter(logging.Formatter("%(asctime)s  %(message)s", datefmt="%Y-%m-%dT%H:%M:%S"))
