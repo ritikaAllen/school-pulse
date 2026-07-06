@@ -240,11 +240,12 @@ results = orchestrator.run_sequential_days(DEMO_DATES, checkins, teacher_obs, re
 ### Demo run — MCP server (local stdio)
 
 ```bash
-# Start the MCP server (stdio — called automatically by mcp_config.json)
-python mcp_server.py
-
-# Or inspect it visually in MCP Inspector:
+# Inspect all four tools interactively in MCP Inspector (recommended):
 mcp dev mcp_server.py
+
+# The server also runs in raw stdio mode (invoked automatically by an MCP client
+# via mcp_config.json — not useful to run standalone):
+python mcp_server.py
 ```
 
 The server exposes four tools: `get_daily_checkins(date)`, `get_teacher_observations(date)`, `get_student_registry()`, `list_available_dates()`. Copy `mcp_config.json` to `~/.gemini/config/mcp_config.json` to wire it into Gemini CLI / Antigravity.
@@ -252,7 +253,11 @@ The server exposes four tools: `get_daily_checkins(date)`, `get_teacher_observat
 ### Demo run — ADK Workflow graph
 
 ```python
+from pathlib import Path
+from agents.orchestrator import load_data, DEMO_DATES
 from agents.adk_workflow import build_workflow, run_one_day_via_adk
+
+checkins, teacher_obs, registry = load_data(Path("data/synthetic"))
 
 # Fake LLMs (no API key needed)
 ctx = run_one_day_via_adk(checkins, teacher_obs, registry, date="2026-06-28")
@@ -263,8 +268,8 @@ print(ctx.judge_scorecard)
 ctx = run_one_day_via_adk(checkins, teacher_obs, registry,
                           date="2026-06-28", use_real_llm=True)
 
-# Inspect the ADK graph structure
-wf = build_workflow(ctx)   # Workflow with 4 edges: START→PG→SM→BJ→HITL
+# Inspect the graph structure (pipeline has already run; this is read-only)
+wf = build_workflow(ctx)   # Workflow: START→privacy_guard→signal_and_memory→brief_and_judge→hitl
 ```
 
 Set `GOOGLE_API_KEY` in your environment before running. The `Fake*` stubs are the default when no LLM is passed — useful for notebooks and offline development.
