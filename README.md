@@ -21,7 +21,7 @@ A multi-agent AI pipeline that gives school counselors a daily synthesized brief
   ┌──────────────┐ ┌───────────────┐ ┌──────────────┐
   │ PRIVACY      │ │ SIGNAL        │ │ MEMORY       │
   │ GUARD        │ │ DETECTOR      │ │ KEEPER       │
-  │              │ │               │ │              │
+  │ [skill]      │ │ [skill]       │ │ [skill]      │
   │ pii-context- │ │ emotional-    │ │ student-     │
   │ sanitizer    │ │ signal-reader │ │ trend-tracker│
   └──────┬───────┘ └───────┬───────┘ └──────┬───────┘
@@ -43,9 +43,9 @@ A multi-agent AI pipeline that gives school counselors a daily synthesized brief
 
 The orchestrator runs in three phases per day, then assembles the brief:
 
-1. **Privacy Guard** (all students) — strips PII before any data enters an LLM context: student names replaced with IDs, contact info redacted, teacher notes NER-cleaned.
-2. **Signal Detector** (one batch LLM call per day) — converts sanitized check-ins into structured signals: `emotional_valence`, `energy_level`, `social_withdrawal_flag`, `distress_keywords_detected`. Junior students use an emoji-to-affect lookup table; senior students' text responses are batched into a single `gemini-3.1-flash-lite` call, then distributed per student.
-3. **Memory Keeper** (per student) — integrates the signal into a 7-day rolling window, recomputes the baseline, and sets `recommended_priority` (`routine` / `elevated` / `urgent`) based on pattern-break detection and consecutive low-day counts.
+1. **Privacy Guard** · `pii-context-sanitizer` (all students) — strips PII before any data enters an LLM context: student names replaced with IDs, contact info redacted, teacher notes NER-cleaned.
+2. **Signal Detector** · `emotional-signal-reader` (one batch LLM call per day) — converts sanitized check-ins into structured signals: `emotional_valence`, `energy_level`, `social_withdrawal_flag`, `distress_keywords_detected`. Junior students use an emoji-to-affect lookup table; senior students' text responses are batched into a single `gemini-3.1-flash-lite` call, then distributed per student.
+3. **Memory Keeper** · `student-trend-tracker` (per student) — integrates the signal into a 7-day rolling window, recomputes the baseline, and sets `recommended_priority` (`routine` / `elevated` / `urgent`) based on pattern-break detection and consecutive low-day counts.
 4. **Orchestrator** assembles a PII-free Daily Brief (LLM call per urgent student), runs an LLM-as-judge evaluation (5-criterion rubric, pass threshold 0.75), then presents the brief to the counselor via the HITL gate.
 5. **HITL gate** halts the pipeline. No referral is written without `APPROVE_AND_LOG`. Every `OVERRIDE_NO_ACTION` is logged to the audit trail.
 
