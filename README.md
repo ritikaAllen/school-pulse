@@ -257,10 +257,11 @@ mcp dev mcp_server.py
 ```
 
 The server also runs in raw stdio mode, invoked automatically by an MCP client
-via `mcp_config.json` — not intended to be run standalone:
+via `mcp_config.json`. Running it standalone is not useful — it will appear to
+hang because it is waiting for JSON-RPC messages on stdin:
 
 ```bash
-python mcp_server.py
+python mcp_server.py   # appears to hang — expected; exit with Ctrl+C
 ```
 
 The server exposes four tools: `get_daily_checkins(date)`, `get_teacher_observations(date)`, `get_student_registry()`, `list_available_dates()`. Copy `mcp_config.json` to `~/.gemini/config/mcp_config.json` to wire it into Gemini CLI / Antigravity.
