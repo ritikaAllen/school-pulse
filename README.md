@@ -300,29 +300,24 @@ python mcp_server.py   # appears to hang — expected; exit with Ctrl+C
 
 The server exposes four tools: `get_daily_checkins(date)`, `get_teacher_observations(date)`, `get_student_registry()`, `list_available_dates()`. Copy `mcp_config.json` to `~/.gemini/config/mcp_config.json` to wire it into Gemini CLI / Antigravity.
 
-### Demo run — ADK Workflow graph
+### ADK Workflow graph
 
-```python
-from pathlib import Path
-from agents.orchestrator import load_data, DEMO_DATES
-from agents.adk_workflow import build_workflow, run_one_day_via_adk
+The ADK integration lives in [`agents/adk_workflow.py`](agents/adk_workflow.py). It wraps the pipeline as a Google ADK 2.x `Workflow` graph:
 
-checkins, teacher_obs, registry = load_data(Path("data/synthetic"))
+| Node | ADK type | What it does |
+|---|---|---|
+| `privacy_guard` | `FunctionNode` | Phase 1 — PII masking + NER redaction |
+| `signal_and_memory` | `FunctionNode` | Phases 2–3 — batch signal detection + Memory Keeper |
+| `brief_and_judge` | `FunctionNode` | Phase 4 — Daily Brief assembly + LLM-as-judge |
+| `schoolpulse_hitl` | `LlmAgent` | HITL gate — APPROVE / OVERRIDE / REQUEST_MORE_CONTEXT |
 
-# Fake LLMs (no API key needed)
-ctx = run_one_day_via_adk(checkins, teacher_obs, registry, date="2026-06-28")
-print(ctx.daily_brief)
-print(ctx.judge_scorecard)
-
-# Real LLM (requires GOOGLE_API_KEY)
-ctx = run_one_day_via_adk(checkins, teacher_obs, registry,
-                          date="2026-06-28", use_real_llm=True)
-
-# Inspect the graph structure (pipeline has already run; this is read-only)
-wf = build_workflow(ctx)   # Workflow: START→privacy_guard→signal_and_memory→brief_and_judge→hitl
+```
+START → privacy_guard → signal_and_memory → brief_and_judge → schoolpulse_hitl
 ```
 
-Set `GOOGLE_API_KEY` in your environment before running. The `Fake*` stubs are the default when no LLM is passed — useful for notebooks and offline development.
+The three `FunctionNode`s use zero-argument closures bound to a shared `_PipelineCtx` object so pipeline state (sanitised records, trend reports, brief text) flows between nodes without going through ADK session state. The `LlmAgent` HITL node requires an ADK `Runner` for interactive use.
+
+For end-to-end results with the full 7-day rolling memory, use the notebook (Cell 5) or the direct orchestrator path above — those show the meaningful urgent/elevated output. The ADK path is the production entry point wired in `app.py` (`run_one_day_via_adk`).
 
 ---
 
