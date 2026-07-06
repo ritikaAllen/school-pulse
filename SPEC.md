@@ -468,7 +468,7 @@ URGENT ACTION REQUIRED (n students):
 ELEVATED WATCH (n students):
   • S_007 — Trend: stable. Delta from baseline: 0.31. Monitor.
 
-ROUTINE (14 students): No action required today.
+ROUTINE (13 students): No action required today.
 
 [APPROVE AND LOG] [REQUEST MORE CONTEXT] [OVERRIDE — NO ACTION]
 ```
