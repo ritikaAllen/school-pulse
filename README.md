@@ -246,10 +246,13 @@ results = orchestrator.run_sequential_days(DEMO_DATES, checkins, teacher_obs, re
 The easiest way to see the MCP tools in action is **notebook Cell 4**, which imports
 `mcp_server.py` directly and calls all four tools — no Node.js required.
 
-For interactive inspection via MCP Inspector, Node.js ≥ 22.7.5 is required:
+For interactive inspection via MCP Inspector:
+
+> **Prerequisites:** Node.js ≥ 22.7.5 and `uv` (`pip install uv`) must both be installed.
+> `mcp dev` uses `uv` as its Python runner and the MCP Inspector requires Node.js ≥ 22.7.5.
 
 ```bash
-# Requires Node.js ≥ 22.7.5 (inspector uses @modelcontextprotocol/inspector)
+# Requires Node.js ≥ 22.7.5 and uv (pip install uv)
 mcp dev mcp_server.py
 ```
 
