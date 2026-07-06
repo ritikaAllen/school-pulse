@@ -226,6 +226,17 @@ GOOGLE_API_KEY=<your-key> pytest tests/test_signal_detector.py -v
 `run_sequential_days()` is a convenience wrapper that calls `run_batch()` for each date in sequence —
 the same pipeline the notebook runs in Cell 5, without the per-day formatted output.
 
+> **Run from the `school-pulse/` directory** — `Path("data/synthetic")` is relative.
+> `GOOGLE_API_KEY` must be set in your environment.
+> `hitl_callback=None` triggers an interactive CLI prompt after each day's brief —
+> you will be asked to enter `1` (approve), `2` (request context), or `3` (override)
+> **7 times** (once per day). To skip the prompts and auto-approve, replace
+> `hitl_callback=None` with `hitl_callback=lambda *a: 'APPROVE_AND_LOG'`.
+
+```bash
+cd school-pulse
+```
+
 ```python
 from pathlib import Path
 from agents.orchestrator import SchoolPulseOrchestrator, load_data, DEMO_DATES
@@ -234,11 +245,12 @@ from agents.llm_interface import RealSignalLLM, RealOrchestratorLLM
 checkins, teacher_obs, registry = load_data(Path("data/synthetic"))
 
 orchestrator = SchoolPulseOrchestrator(
-    signal_llm=RealSignalLLM(),           # reads GOOGLE_API_KEY
+    signal_llm=RealSignalLLM(),            # reads GOOGLE_API_KEY from environment
     orchestrator_llm=RealOrchestratorLLM(),
-    hitl_callback=None,                   # interactive CLI prompt
+    hitl_callback=None,                    # interactive CLI prompt — see note above
 )
 results = orchestrator.run_sequential_days(DEMO_DATES, checkins, teacher_obs, registry)
+print("Done —", len(results), "days processed")
 ```
 
 ### Demo run — MCP server (local stdio)
