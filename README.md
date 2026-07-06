@@ -193,13 +193,30 @@ school-pulse/
 
 ## Quickstart
 
-**Prerequisites:** Python 3.11, spaCy `en_core_web_sm` model.
-
-For the demo run you also need a **Google AI Studio API key** — get one free at [aistudio.google.com](https://aistudio.google.com) and export it as `GOOGLE_API_KEY`.
+**Prerequisites:** Python 3.11+, spaCy `en_core_web_sm` model.
 
 ```bash
+cd school-pulse
 pip install -r requirements.txt
 python -m spacy download en_core_web_sm
+```
+
+For the demo run and live LLM tests you also need a **Google AI Studio API key** — get one free at [aistudio.google.com](https://aistudio.google.com).
+
+Set it in your environment before running anything that calls Gemini:
+
+```bash
+# macOS / Linux
+export GOOGLE_API_KEY=your-key-here
+
+# Windows PowerShell
+$env:GOOGLE_API_KEY = "your-key-here"
+```
+
+Or add it to a `.env` file in the `school-pulse/` directory — the notebook reads it automatically:
+
+```
+GOOGLE_API_KEY=your-key-here
 ```
 
 For MCP Inspector (`mcp dev mcp_server.py`) two additional prerequisites apply:
@@ -211,6 +228,7 @@ For MCP Inspector (`mcp dev mcp_server.py`) two additional prerequisites apply:
 33 tests use deterministic `Fake*` stubs — no credentials needed. 1 test exercises the live Gemini text path and is skipped when no key is present.
 
 ```bash
+# Run from school-pulse/ directory
 pytest tests/ -v
 # 33 passed, 1 skipped
 ```
@@ -218,7 +236,11 @@ pytest tests/ -v
 The skipped test (`test_esr_text_withdrawal_002`) calls `reader.py`'s Gemini path directly. It runs when `GOOGLE_API_KEY` is set:
 
 ```bash
+# macOS / Linux
 GOOGLE_API_KEY=<your-key> pytest tests/test_signal_detector.py -v
+
+# Windows PowerShell
+$env:GOOGLE_API_KEY = "<your-key>"; pytest tests/test_signal_detector.py -v
 ```
 
 ### Demo run — direct orchestrator (full pipeline with real LLM)
@@ -348,11 +370,36 @@ Set `GOOGLE_API_KEY` in your environment before running. The `Fake*` stubs are t
 
 20 students · 7 days · 2 age groups (10 junior emoji / 10 senior text)
 
-| Arc | Count | Description |
+**Day 7 pipeline output** (what the 7-day notebook run with live Gemini actually produces):
+
+| Priority | Count | Students |
 |---|---|---|
-| `routine` | 14 | Stable or improving signals throughout |
-| `elevated` | 4 | Declining trend or 1–2 consecutive low days |
-| `urgent` | 2 | Pattern break or 3+ consecutive low days |
+| `urgent` | 5 | S_004, S_003, S_009, S_017, S_018 |
+| `elevated` | 2 | S_007, S_012 |
+| `routine` | 13 | all remaining |
+
+### What each arc demonstrates
+
+**Urgent students**
+
+| Student | Age | Pattern | Why urgent |
+|---|---|---|---|
+| S_004 (senior) | 15 | Stable positive Days 1–6, single severe crash Day 7 with distress language | Pattern break: baseline +0.27, Day 7 valence −0.80 → delta 1.07 >> 0.4 threshold |
+| S_003 (senior) | 14 | Slow steady decline across 7 days | 5 consecutive low days by Day 7 — Gemini scores progressively negative texts ("Kind of meh", "Pretty low", "Really struggling") below −0.3 boundary from Day 3 onward → CRISIS_WATCH_TRIGGER (≥3) fires |
+| S_017 (junior) | 8 | Mildly positive Days 1–3, strongly negative emoji Days 4–7 (😭😔😶) | Consecutive low days = 4 by Day 7; pattern break also fires on Day 4 |
+| S_009 (junior) | 7 | Consistently positive Days 1–5, then strong negative emoji Days 6–7 (😢😴😠) | Pattern break: baseline +0.46, dip to −0.50 → delta 0.96; strongly positive baseline makes any sharp crash look severe |
+| S_018 (junior) | 9 | Strongly positive Days 1–4, crash Day 5, recovery Day 6, crash again Day 7 | Pattern break fires twice (Days 5 and 7); non-consecutive drops from a high baseline (+0.58) both exceed the 0.4 delta threshold |
+
+**Elevated students**
+
+| Student | Age | Pattern | Why elevated (not urgent) |
+|---|---|---|---|
+| S_007 (junior) | 7 | Neutral-to-mild Days 1–5 (🙂😐😬😑😴), sad Days 6–7 (😔😴) | Consecutive low days = 2; mild baseline (−0.09) means drop to −0.40 is only delta 0.31 — just below the pattern break threshold |
+| S_012 (senior) | 16 | Neutral Days 1–5, clearly sad Days 6–7 | Consecutive low days = 2; neutral baseline keeps delta from Day 6 to 0.36 — just below the 0.4 pattern break threshold |
+
+**Key threshold: why some students go urgent and others stay elevated**
+
+The algorithm uses two urgency triggers: (1) `consecutive_low_days ≥ 3` (crisis watch) and (2) `pattern_break` — today's valence dropped more than 0.40 below the prior rolling baseline. S_007 and S_012 stay elevated because their baselines are already low or neutral, so the delta on their worst days stays just below 0.4. S_009 and S_018 go urgent because their strongly positive baselines make any sharp dip look severe. S_003 goes urgent because Gemini reads the gradually worsening language more sensitively than a keyword heuristic, scoring Days 3–7 below the −0.3 low-valence boundary.
 
 ---
 
