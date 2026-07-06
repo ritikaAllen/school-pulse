@@ -1,6 +1,6 @@
 # DECISIONS.md — Architecture Decisions
 
-## LLM Seam Strategy (Phase 5)
+## LLM Seam Strategy
 
 **Decision: Fake LLM stubs for integration tests; real LLM injected for demo only.**
 
@@ -60,18 +60,27 @@ All references updated to `gemini-3.1-flash-lite` across:
 - `SPEC.md §8` — Tooling & Library Stack yaml
 - `notebook/schoolpulse_demo.ipynb` — setup cell print statement and architecture description
 
-### Arc-label vs. algorithm discrepancy (noted at Phase 5 integration run)
+### Arc-label vs. algorithm discrepancy
 
 The `student_registry.json` arc labels (`_arc_label`) were design-time intents written
-before the algorithm ran end-to-end. After integration:
+before the algorithm ran end-to-end. Three students land in a different priority bucket
+than their arc label suggests:
 
 - **S_009** (arc: `elevated_late_dip`) and **S_018** (arc: `elevated_inconsistent`) both
-  trigger `pattern_break_detected=True` on Day 7 because their strongly-positive 5-day
-  baselines make the consecutive-low-day drops exceed the 0.4 delta threshold. The algorithm
-  correctly classifies these as urgent under the tracker's rules.
+  trigger `pattern_break_detected=True` because their strongly-positive 5-day baselines
+  make the consecutive-low-day drops exceed the 0.4 delta threshold. The algorithm
+  correctly classifies both as urgent.
 
-- The Day 7 expected outputs that T2 asserts are derived from actual algorithmic runs, not
-  from the arc labels. The arc labels remain as human-readable design notes.
+- **S_003** (arc: `elevated_declining`) goes urgent in the real-LLM run. Gemini scores the
+  progressively worsening texts ("Kind of meh", "Pretty low", "Really struggling") below
+  the −0.3 low-valence boundary from Day 3 onward, producing 5 consecutive low days by
+  Day 7 and triggering the crisis-watch rule (≥ 3). With `FakeSignalLLM`, the keyword
+  heuristic scores Days 1–5 above −0.3, giving only 2 consecutive lows → elevated.
+  The difference reflects real LLM sensitivity to gradual negative language, not a data bug.
+
+- The Day 7 expected outputs that T2 asserts are derived from actual algorithmic runs with
+  `FakeSignalLLM`, not from the arc labels. The arc labels remain as human-readable design
+  notes.
 
 ### API call optimisation: batch signals + elevated action cache (July 2026)
 
@@ -115,7 +124,7 @@ The orchestrator already coordinates the pipeline correctly as pure Python. ADK 
 
 **Consequences:**
 - `run_one_day_via_adk()` provides a second callable entry point (used by `app.py` Cloud Run endpoint)
-- `build_workflow()` makes the graph structure inspectable and printable for demo purposes
+- `build_workflow()` makes the graph structure inspectable — callers can iterate `wf.edges` to print the topology
 - All integration tests (T1–T6) continue to exercise the direct orchestrator path — no duplication needed
 
 ---
