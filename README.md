@@ -1,4 +1,4 @@
-# SchoolPulse — Mental Health First Responder Agent
+# SchoolPulse — Well-Being Signal Agent
 
 > Kaggle AI Agents Intensive · Agents for Good Capstone · July 2026
 
