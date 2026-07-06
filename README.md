@@ -1,4 +1,4 @@
-# SchoolPulse — Well-Being Signal Agent
+#SchoolPulse — Multi-Agent Student Well-Being Signal System
 
 > Kaggle AI Agents Intensive · Agents for Good Capstone · July 2026
 
