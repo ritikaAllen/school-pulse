@@ -202,6 +202,10 @@ pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 ```
 
+For MCP Inspector (`mcp dev mcp_server.py`) two additional prerequisites apply:
+- **Node.js ≥ 22.7.5** — `winget install OpenJS.NodeJS.22` (Windows) or download from [nodejs.org](https://nodejs.org)
+- **uv** — `pip install uv` (used by `mcp dev` as the Python runner)
+
 ### Run the integration tests (no API key required)
 
 33 tests use deterministic `Fake*` stubs — no credentials needed. 1 test exercises the live Gemini text path and is skipped when no key is present.
