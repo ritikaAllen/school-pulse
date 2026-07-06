@@ -53,6 +53,7 @@ This system is a **multi-agent AI pipeline** that gives school counselors a dail
   │ Sub-Agent     │ │ Sub-Agent    │ │ Sub-Agent        │
   └───────┬───────┘ └──────┬───────┘ └────────┬─────────┘
           │                │                   │
+   skill:          skill:              skill:
    pii-context-    emotional-          student-trend-
    sanitizer       signal-reader       tracker
           │                │                   │
